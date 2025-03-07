@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('subcategorias', function (Blueprint $table) {
             $table->id();
             $table->string('subcategoria');
+            // RELACION CATEGORIA
+            $table->unsignedBigInteger('categoria');
+            $table->foreign('categoria')->references('id')->on('categorias')->onDelete('cascade');
             $table->timestamps();
         });
     }
