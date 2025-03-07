@@ -47,4 +47,24 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Relación: Un usuario pertenece a un rol.
+     */
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class);
+    }
+
+    /**
+     * Relación: Un usuario pertenece a una sede.
+     */
+    public function seu()
+    {
+        return $this->belongsTo(Seu::class);
+    }
+    public function incidencias()
+    {
+        return $this->hasMany(Incidencia::class);
+    }
 }
