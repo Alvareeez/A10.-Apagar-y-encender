@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Rol extends Model
 {
 
-    protected $table = ['roles'];
+    protected $table = 'roles';
     public $timestamps = false;
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class , 'role');
     }
 }

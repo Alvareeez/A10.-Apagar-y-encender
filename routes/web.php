@@ -14,9 +14,17 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rutas según el rol
 Route::middleware('auth')->group(function () {
+    // ADMIN
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    // CLIENTE
     Route::get('/cliente/dashboard', [ClienteController::class, 'dashboard'])->name('cliente.dashboard');
+
+    // GESTOR
     Route::get('/gestor/dashboard', [GestorController::class, 'dashboard'])->name('gestor.dashboard');
+    Route::post('/gestor/incidencia/{id}/asignar', [GestorController::class, 'asignarTecnico'])->name('gestor.incidencia.asignar');
+    
+    // TECNICO
     Route::get('/tecnico/dashboard', [TecnicoController::class, 'dashboard'])->name('tecnico.dashboard');
     Route::get('/home', function () {
         return view('home'); // Página por defecto
