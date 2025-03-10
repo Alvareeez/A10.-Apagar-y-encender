@@ -31,17 +31,7 @@
             </div>
             @endif
 
-            @if ($errors->any())
-            <div class="bg-red-100 text-red-600 p-3 rounded-lg mb-4">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-
-            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+            <form id="loginForm" method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
 
                 <div class="space-y-2">
@@ -53,6 +43,7 @@
                         name="email"
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('email') border-red-500 @enderror"
                         value="{{ old('email') }}">
+                    <!-- Mensaje de error para el correo electrónico -->
                     @error('email')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -66,6 +57,7 @@
                         id="password"
                         name="password"
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('password') border-red-500 @enderror">
+                    <!-- Mensaje de error para la contraseña -->
                     @error('password')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -81,7 +73,10 @@
 
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
+    <!-- Incluir el archivo de validaciones -->
+    <script src="{{ asset('js/validacionesLogin.js') }}"></script>
+
     @if (session('error'))
     <script>
         Swal.fire({
@@ -93,7 +88,6 @@
         });
     </script>
     @endif
-
 </body>
 
 </html>
