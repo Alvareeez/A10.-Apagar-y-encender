@@ -1,0 +1,9 @@
+## SEEDERS
+
+# Creamos SEEDERS
+
+php artsian make:seeder NombreSeeder
+
+# Ejecutar SEEDERS
+
+php artisan db:seed           
