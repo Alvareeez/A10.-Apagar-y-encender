@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            // REALCION ROL
+            // Campo para la foto de perfil (ruta de la imagen)
+            $table->string('profile_photo')->nullable();
+            // RELACION ROL
             $table->unsignedBigInteger('role');
             $table->foreign('role')->references('id')->on('roles')->onDelete('cascade');
             // RELACION SEU
