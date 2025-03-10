@@ -2,23 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Incidencia extends Model
 {
+    use HasFactory;
 
     protected $table = 'incidencia';
 
     protected $fillable = [
         'titulo',
         'descripcion',
-        'cliente_id', // Usuario que creó la incidencia
-        'tecnico_id', // Usuario asignado (nullable hasta que se asigne)
-        'estado_id',
-        'prioridad_id',
-        'subcategoria_id',
-        'fecha_creacion',
-        'fecha_resolucion',
+        'subcategoria',
+        'comentario',
+        'imagen',
+        'usuario_creador',
+        'tecnico_asignado',
+        'estado',
+        'prioridad',
+        'categoria',
     ];
 
     /**
@@ -34,7 +37,7 @@ class Incidencia extends Model
      */
     public function tecnico()
     {
-        return $this->belongsTo(User::class, 'tecnico_id')->nullable();
+        return $this->belongsTo(User::class, 'tecnico_asignado');
     }
 
     /**
@@ -59,5 +62,13 @@ class Incidencia extends Model
     public function subcategoria()
     {
         return $this->belongsTo(Subcategoria::class);
+    }
+
+    /**
+     * Relación: Una incidencia pertenece a un creador (usuario que la creó).
+     */
+    public function creador()
+    {
+        return $this->belongsTo(User::class, 'usuario_creador');
     }
 }
