@@ -6,36 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('incidencia', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
             $table->string('descripcion');
-            $table->string('imagen');
-            //REALCION USUARIOS
-            $table->unsignedBigInteger('tecnico_asignado');
+            $table->string('imagen')->nullable(); // Campo opcional para imágenes
+            // Relaciones con usuarios
+            $table->unsignedBigInteger('cliente_id'); // Usuario que reporta la incidencia
+            $table->foreign('cliente_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('tecnico_asignado')->nullable(); // Técnico asignado (puede ser nulo)
             $table->foreign('tecnico_asignado')->references('id')->on('users')->onDelete('cascade');
-            // RELACION ESTADO
+            // Relaciones con estado, prioridad y categoría
             $table->unsignedBigInteger('estado');
             $table->foreign('estado')->references('id')->on('estado')->onDelete('cascade');
-            // RELACION PRIORIDAD
             $table->unsignedBigInteger('prioridad');
             $table->foreign('prioridad')->references('id')->on('prioridad')->onDelete('cascade');
-            // RELACION CATEGORIA
             $table->unsignedBigInteger('categoria');
             $table->foreign('categoria')->references('id')->on('categorias')->onDelete('cascade');
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            // Timestamps
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('incidencia');

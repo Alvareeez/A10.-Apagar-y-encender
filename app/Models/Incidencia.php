@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Incidencia extends Model
 {
-
     protected $table = 'incidencia';
 
     protected $fillable = [
         'titulo',
         'descripcion',
-        'cliente_id', // Usuario que creó la incidencia
-        'tecnico_id', // Usuario asignado (nullable hasta que se asigne)
-        'estado_id',
-        'prioridad_id',
-        'subcategoria_id',
-        'fecha_creacion',
-        'fecha_resolucion',
+        'imagen',
+        'cliente_id',
+        'tecnico_asignado',
+        'estado',
+        'prioridad',
+        'categoria',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -34,30 +34,30 @@ class Incidencia extends Model
      */
     public function tecnico()
     {
-        return $this->belongsTo(User::class, 'tecnico_id')->nullable();
+        return $this->belongsTo(User::class, 'tecnico_asignado')->nullable();
     }
 
     /**
-     * Relación: Una incidencia tiene un estado (Sin asignar, Asignada, En trabajo, Resuelta, Cerrada).
+     * Relación: Una incidencia tiene un estado.
      */
     public function estado()
     {
-        return $this->belongsTo(Estado::class);
+        return $this->belongsTo(Estado::class, 'estado');
     }
 
     /**
-     * Relación: Una incidencia tiene una prioridad (Alta, Media, Baja).
+     * Relación: Una incidencia tiene una prioridad.
      */
     public function prioridad()
     {
-        return $this->belongsTo(Prioridad::class);
+        return $this->belongsTo(Prioridad::class, 'prioridad');
     }
 
     /**
-     * Relación: Una incidencia pertenece a una subcategoría (Ej: "Teclado no funciona").
+     * Relación: Una incidencia pertenece a una categoría.
      */
-    public function subcategoria()
+    public function categoria()
     {
-        return $this->belongsTo(Subcategoria::class);
+        return $this->belongsTo(Categoria::class, 'categoria');
     }
 }
