@@ -15,9 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->string('descripcion');
-            $table->string('imagen');
-            //REALCION USUARIOS
-            $table->unsignedBigInteger('tecnico_asignado');
+            $table->string('subcategoria');
+            $table->text('comentario');
+            $table->string('imagen')->nullable();
+            // RELACION USUARIOS (CREADOR)
+            $table->unsignedBigInteger('usuario_creador');
+            $table->foreign('usuario_creador')->references('id')->on('users')->onDelete('cascade');
+            // RELACION USUARIOS (TECNICO ASIGNADO)
+            $table->unsignedBigInteger('tecnico_asignado')->nullable();
             $table->foreign('tecnico_asignado')->references('id')->on('users')->onDelete('cascade');
             // RELACION ESTADO
             $table->unsignedBigInteger('estado');
@@ -28,8 +33,7 @@ return new class extends Migration
             // RELACION CATEGORIA
             $table->unsignedBigInteger('categoria');
             $table->foreign('categoria')->references('id')->on('categorias')->onDelete('cascade');
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            $table->timestamps();
         });
     }
 

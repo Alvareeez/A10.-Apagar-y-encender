@@ -23,6 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Eliminar primero las tablas que dependen de 'categorias'
+        Schema::dropIfExists('incidencia');
+        Schema::dropIfExists('subcategorias');
         Schema::dropIfExists('categorias');
     }
 };

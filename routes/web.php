@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\GestorController;
 use App\Http\Controllers\TecnicoController;
+use App\Http\Controllers\IncidenciaController;
 
 // Rutas de autenticación
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -22,3 +23,7 @@ Route::middleware('auth')->group(function () {
         return view('home'); // Página por defecto
     })->name('home');
 });
+
+Route::get('crearincidencias', [IncidenciaController::class, 'create'])->name('incidencias.create');
+Route::post('incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store');
+Route::get('misincidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
