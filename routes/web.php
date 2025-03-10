@@ -2,17 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\GestorController;
+use App\Http\Controllers\TecnicoController;
 
-// Ruta para la página de inicio de sesión
+// Rutas de autenticación
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-
-// Ruta para la página de inicio después de loguearse
-Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
-
-// Ruta por defecto que redirige a /home si estás autenticado
-Route::redirect('/', '/home');
-
-// Ruta para cerrar sesión
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Rutas según el rol
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/cliente/dashboard', [ClienteController::class, 'dashboard'])->name('cliente.dashboard');
+    Route::get('/gestor/dashboard', [GestorController::class, 'dashboard'])->name('gestor.dashboard');
+    Route::get('/tecnico/dashboard', [TecnicoController::class, 'dashboard'])->name('tecnico.dashboard');
+    Route::get('/home', function () {
+        return view('home'); // Página por defecto
+    })->name('home');
+});
