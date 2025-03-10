@@ -2,7 +2,15 @@
 
 # Creamos SEEDERS
 
-php artsian make:seeder NombreSeeder
+php artsian make:seeder CategoriaSeeder
+php artsian make:seeder DatabaseSeeder
+php artsian make:seeder EstadoSeeder
+php artsian make:seeder IncidenciaSeeder
+php artsian make:seeder PrioridadSeeder
+php artsian make:seeder RolSeeder
+php artsian make:seeder SeuSeeder
+php artsian make:seeder SubcategoriaSeeder
+php artsian make:seeder UserSeeder
 
 # Ejecutar SEEDERS
 
