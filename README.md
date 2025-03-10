@@ -48,8 +48,3 @@ Desenvolupar una plataforma que permeti la gestió eficient de les incidències 
 
 ---
 
-## 🚀 Instal·lació i execució  
-1️⃣ **Clonar el repositori:**  
-   ```bash
-   git clone https://github.com/el-teu-usuari/plataforma-incidencies.git
-   cd plataforma-incidencies
