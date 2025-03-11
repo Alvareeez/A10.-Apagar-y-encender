@@ -86,6 +86,9 @@
                 @if($incidencia->imagen)
                     <p><strong>Imagen:</strong> <img src="{{ asset('storage/' . $incidencia->imagen) }}" alt="Imagen de la incidencia"></p>
                 @endif
+                @if($incidencia->tecnico)
+                    <p><a href="{{ route('incidencias.chat', $incidencia->id) }}" class="button">Hablar con el Técnico</a></p>
+                @endif
             </div>
         @endforeach
     </div>
