@@ -23,6 +23,8 @@
             border-radius: 50%;
             background-color: #fff;
             margin-bottom: 10px;
+            background-size: cover;
+            background-position: center;
         }
         .username {
             font-size: 20px;
@@ -76,7 +78,7 @@
 <body>
     <div class="sidebar">
         @if(Auth::user()->profile_photo)
-            <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');"></div>
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('perfil') }}'"></div>
         @else
             <div class="profile-pic"></div>
         @endif

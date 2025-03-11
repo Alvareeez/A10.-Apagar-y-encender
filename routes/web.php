@@ -7,6 +7,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\GestorController;
 use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\IncidenciaController;
+use App\Http\Controllers\UserController;
 
 // Rutas de autenticación
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -29,3 +30,6 @@ Route::post('incidencias', [IncidenciaController::class, 'store'])->name('incide
 Route::get('misincidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
 Route::get('/incidencias/chat/{id}', [IncidenciaController::class, 'chat'])->name('incidencias.chat');
 Route::post('/incidencias/chat/{id}', [IncidenciaController::class, 'sendMessage'])->name('incidencias.sendMessage');
+
+Route::get('/perfil', [ClienteController::class, 'showProfile'])->name('perfil.show');
+Route::put('/perfil', [ClienteController::class, 'updateProfile'])->name('perfil.update');
