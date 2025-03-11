@@ -23,6 +23,9 @@
             border-radius: 50%;
             background-color: #fff;
             margin-bottom: 10px;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
         }
         .username {
             font-size: 20px;
@@ -47,7 +50,7 @@
 </head>
 <body>
     <div class="sidebar">
-        <div class="profile-pic"></div>
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('perfil') }}'"></div>
         <div class="username">{{ Auth::user()->name }}</div>
         <a href="{{ url('crearincidencias') }}" class="button">Crear Incidencias</a>
         <a href="{{ url('misincidencias') }}" class="button">Mis Incidencias</a>
