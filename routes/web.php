@@ -27,3 +27,5 @@ Route::middleware('auth')->group(function () {
 Route::get('crearincidencias', [IncidenciaController::class, 'create'])->name('incidencias.create');
 Route::post('incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store');
 Route::get('misincidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
+Route::get('/incidencias/chat/{id}', [IncidenciaController::class, 'chat'])->name('incidencias.chat');
+Route::post('/incidencias/chat/{id}', [IncidenciaController::class, 'sendMessage'])->name('incidencias.sendMessage');
