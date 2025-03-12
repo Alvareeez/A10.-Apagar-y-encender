@@ -11,7 +11,7 @@
         <img src="https://via.placeholder.com/80" alt="Gestor">
         <h2>Gestor</h2>
         <a href="{{ route('gestor.dashboard') }}"><button>Ver incidencias</button></a>
-        <button>Técnicos</button>
+        <a href="{{ route('gestor.tecnicos') }}"><button>Técnicos</button></a>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf
             <button type="submit" class="logout">Cerrar sesión</button>
@@ -37,11 +37,11 @@
                         <label for="estado">Filtrar por estado:</label>
                         <select name="estado" id="estado">
                             <option value="">Todos</option>
-                            <option value="abierta">Abierta</option>
-                            <option value="asignada">Asignada</option>
-                            <option value="en_progreso">En progreso</option>
-                            <option value="resuelta">Resuelta</option>
-                            <option value="cerrada">Cerrada</option>
+                            <option value="{{ \App\Models\Incidencia::ESTADO_ABIERTA }}">Abierta</option>
+                            <option value="{{ \App\Models\Incidencia::ESTADO_ASIGNADA }}">Asignada</option>
+                            <option value="{{ \App\Models\Incidencia::ESTADO_EN_PROGRESO }}">En progreso</option>
+                            <option value="{{ \App\Models\Incidencia::ESTADO_RESUELTA }}">Resuelta</option>
+                            <option value="{{ \App\Models\Incidencia::ESTADO_CERRADA }}">Cerrada</option>
                         </select>
                     </div>
                     <div class="flex items-end">

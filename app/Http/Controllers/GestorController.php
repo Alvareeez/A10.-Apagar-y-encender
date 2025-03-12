@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth; // Importar el facade Auth
 
 class GestorController extends Controller
 {
+
     public function dashboard(Request $request)
     {
         // Verificar si el usuario está autenticado
@@ -31,8 +32,8 @@ class GestorController extends Controller
             $incidencias->where('estado', $request->estado);
         }
 
-        // Ocultar incidencias cerradas
-        $incidencias->where('estado', '!=', 'cerrada');
+        // Filtrar por sede del usuario
+        $incidencias->where('seu', Auth::user()->seu);
 
         // Ordenar por prioridad y fecha de entrada
         $incidencias->orderBy('prioridad', 'desc')->orderBy('created_at', 'desc');
@@ -41,7 +42,7 @@ class GestorController extends Controller
         $incidencias = $incidencias->get();
 
         // Obtener el rol "Tecnico" de la tabla "roles"
-        $roleTecnico = Rol::where('roles', 'Tecnico')->first();
+        $roleTecnico = Rol::where('roles', 'Técnico de Mantenimiento')->first();
 
         if (!$roleTecnico) {
             return redirect()->route('gestor.dashboard')->with('error', 'El rol "Tecnico" no existe en la base de datos.');
@@ -55,6 +56,40 @@ class GestorController extends Controller
         return view('gestor.dashboard', compact('incidencias', 'tecnicos'));
     }
 
+    public function tecnicos()
+    {
+        // Obtener el rol "Tecnico" de la tabla "roles"
+        $roleTecnico = Rol::where('roles', 'Técnico de Mantenimiento')->first();
+
+        if (!$roleTecnico) {
+            return redirect()->route('gestor.dashboard')->with('error', 'El rol "Tecnico" no existe en la base de datos.');
+        }
+
+        // Obtener los usuarios con el rol "Tecnico" y que pertenezcan a la misma sede que el gestor actual
+        $tecnicos = User::where('role', $roleTecnico->id)
+                        ->where('seu', Auth::user()->seu)
+                        ->get();
+
+        return view('gestor.tecnicos', compact('tecnicos'));
+    }
+
+    public function incidenciasTecnico($id)
+    {
+        $tecnico = User::findOrFail($id);
+
+        // Obtener las incidencias asignadas al técnico
+        $incidencias = Incidencia::where('tecnico_asignado', $id)->get();
+
+        return view('gestor.incidencias_tecnico', compact('tecnico', 'incidencias'));
+    }
+
+    public function detallesIncidencia($id)
+    {
+        $incidencia = Incidencia::findOrFail($id);
+
+        return view('gestor.detalles_incidencia', compact('incidencia'));
+    }
+
     public function asignarTecnico(Request $request, $id)
     {
         // Validar la solicitud
@@ -65,8 +100,8 @@ class GestorController extends Controller
         // Asignar el técnico a la incidencia
         $incidencia = Incidencia::findOrFail($id);
         $incidencia->update([
-            'estado' => 'asignada',
-            'tecnico_id' => $request->tecnico_id,
+            'estado' => $request->estado_id,
+            'tecnico_asignado' => $request->tecnico_id,
         ]);
 
         return redirect()->route('gestor.dashboard')->with('success', 'Incidencia asignada correctamente.');
