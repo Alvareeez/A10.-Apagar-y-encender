@@ -71,4 +71,12 @@ class Incidencia extends Model
     {
         return $this->belongsTo(User::class, 'usuario_creador');
     }
+
+    /**
+     * Relación: Una incidencia tiene muchos chats.
+     */
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
+    }
 }

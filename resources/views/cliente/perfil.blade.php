@@ -17,6 +17,7 @@
             width: 250px;
             height: 100vh;
             box-sizing: border-box;
+            transition: transform 0.3s ease;
         }
         .profile-pic {
             width: 100px;
@@ -24,6 +25,7 @@
             border-radius: 50%;
             background-color: #fff;
             margin-bottom: 10px;
+            cursor: pointer;
             background-size: cover;
             background-position: center;
         }
@@ -70,11 +72,43 @@
         .form-group button:hover {
             background-color: #00BFFF;
         }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            margin: 10px;
+            z-index: 1001; /* Ensure the hamburger is above the sidebar */
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 4px 0;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                z-index: 1000;
+                height: 100%;
+                transform: translateX(-100%);
+            }
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+            .hamburger {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');"></div>
+    <div class="hamburger" onclick="toggleSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="sidebar hidden" id="sidebar">
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('perfil') }}'"></div>
         <div class="username">{{ Auth::user()->name }}</div>
         <a href="{{ url('crearincidencias') }}" class="button">Crear Incidencias</a>
         <a href="{{ url('misincidencias') }}" class="button">Mis Incidencias</a>
@@ -101,5 +135,12 @@
             </div>
         </form>
     </div>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('visible');
+            sidebar.classList.toggle('hidden');
+        }
+    </script>
 </body>
 </html>
