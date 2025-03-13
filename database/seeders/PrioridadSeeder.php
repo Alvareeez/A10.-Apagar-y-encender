@@ -13,6 +13,7 @@ class PrioridadSeeder extends Seeder
             ['prioridad' => 'Alta'],
             ['prioridad' => 'Media'],
             ['prioridad' => 'Baja'],
+            ['prioridad' => 'Sin prioridad'],
         ];
 
         foreach ($prioridades as $prioridad) {

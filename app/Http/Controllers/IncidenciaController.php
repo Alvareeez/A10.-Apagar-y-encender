@@ -18,8 +18,7 @@ class IncidenciaController extends Controller
     {
         $categorias = Categoria::all();
         $subcategorias = Subcategoria::all();
-        $prioridades = Prioridad::all();
-        return view('cliente.crearincidencias', compact('categorias', 'subcategorias', 'prioridades'));
+        return view('cliente.crearincidencias', compact('categorias', 'subcategorias'));
     }
 
     public function store(Request $request)
@@ -30,7 +29,6 @@ class IncidenciaController extends Controller
             'subcategoria' => 'required|integer',
             'comentario' => 'required|string',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'prioridad' => 'required|integer',
             'categoria' => 'required|integer',
         ]);
 
@@ -42,7 +40,7 @@ class IncidenciaController extends Controller
         $incidencia->usuario_creador = Auth::id(); // Asociar el usuario autenticado como creador
         $incidencia->tecnico_asignado = null; // No asignar técnico por defecto
         $incidencia->estado = 1; // Estado por defecto "Sin asignar"
-        $incidencia->prioridad = $request->prioridad;
+        $incidencia->prioridad = 4; // Prioridad por defecto "Sin prioridad"
         $incidencia->categoria = $request->categoria;
         $incidencia->seu = Auth::user()->seu; // Asociar la sede del usuario autenticado
 

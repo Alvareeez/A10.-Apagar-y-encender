@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Incidencia</title>
     <link href="{{ asset('css/cliente.css') }}" rel="stylesheet">
+
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
     <div class="hamburger" onclick="toggleSidebar()">
@@ -57,14 +65,6 @@
             <div class="form-group">
                 <label for="comentario">Comentario:</label>
                 <textarea id="comentario" name="comentario" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="prioridad">Prioridad:</label>
-                <select id="prioridad" name="prioridad" required>
-                    @foreach($prioridades as $prioridad)
-                        <option value="{{ $prioridad->id }}">{{ $prioridad->prioridad }}</option>
-                    @endforeach
-                </select>
             </div>
 
             <div class="form-group">
