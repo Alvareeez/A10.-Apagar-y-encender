@@ -1,9 +1,10 @@
+<!-- filepath: c:\wamp64\www\M12\A10.-Apagar-y-encender\resources\views\cliente\perfil.blade.php -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Incidencia</title>
+    <title>Perfil del Cliente</title>
     <style>
         body {
             display: flex;
@@ -54,17 +55,13 @@
             display: block;
             margin-bottom: 5px;
         }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .form-group input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
         .form-group button {
-            display: block;
-            width: 100%;
             padding: 10px;
             background-color: #87CEEB;
             color: #fff;
@@ -111,73 +108,30 @@
         <div></div>
     </div>
     <div class="sidebar hidden" id="sidebar">
-        @if(Auth::user()->profile_photo)
-            <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('perfil') }}'"></div>
-        @else
-            <div class="profile-pic"></div>
-        @endif
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('perfil') }}'"></div>
         <div class="username">{{ Auth::user()->name }}</div>
         <a href="{{ url('crearincidencias') }}" class="button">Crear Incidencias</a>
         <a href="{{ url('misincidencias') }}" class="button">Mis Incidencias</a>
-        <form action="{{ route('logout') }}" method="POST" class="logout-form">
-            @csrf
-            <button type="submit" class="logout">Cerrar sesión</button>
-        </form>
     </div>
     <div class="content">
-        <h1>Crear Incidencia</h1>
-        <form action="{{ route('incidencias.store') }}" method="POST" enctype="multipart/form-data">
+        <h1>Perfil del Cliente</h1>
+        <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="form-group">
-                <label for="titulo">Título:</label>
-                <input type="text" id="titulo" name="titulo" required>
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" readonly>
             </div>
             <div class="form-group">
-                <label for="descripcion">Descripción:</label>
-                <input type="text" id="descripcion" name="descripcion" required>
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" value="{{ Auth::user()->email }}" readonly>
             </div>
             <div class="form-group">
-                <label for="subcategoria">Subcategoría:</label>
-                <select id="subcategoria" name="subcategoria" required>
-                    @foreach($subcategorias as $subcategoria)
-                        <option value="{{ $subcategoria->id }}">{{ $subcategoria->subcategoria }}</option>
-                    @endforeach
-                </select>
+                <label for="profile_photo">Foto de Perfil:</label>
+                <input type="file" id="profile_photo" name="profile_photo" accept="image/*">
             </div>
             <div class="form-group">
-                <label for="comentario">Comentario:</label>
-                <textarea id="comentario" name="comentario" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="estado">Estado:</label>
-                <input type="number" id="estado" name="estado" required>
-            </div>
-            <div class="form-group">
-                <label for="prioridad">Prioridad:</label>
-                <input type="number" id="prioridad" name="prioridad" required>
-            </div>
-            <div class="form-group">
-                <label for="categoria">Categoría:</label>
-                <select id="categoria" name="categoria" required>
-                    @foreach($categorias as $categoria)
-                        <option value="{{ $categoria->id }}">{{ $categoria->categoria }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="imagen">Imagen:</label>
-                <input type="file" id="imagen" name="imagen" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label for="seu">Sede:</label>
-                <select id="seu" name="seu">
-                    @foreach($seus as $seu)
-                        <option value="{{ $seu->id }}">{{ $seu->seu }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <button type="submit">Enviar Incidencia</button>
+                <button type="submit">Actualizar Foto de Perfil</button>
             </div>
         </form>
     </div>

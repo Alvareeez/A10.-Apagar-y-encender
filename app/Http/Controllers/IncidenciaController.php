@@ -9,6 +9,8 @@ use App\Models\Seu;
 use App\Models\Incidencia;
 use App\Models\Categoria;
 use App\Models\Subcategoria;
+use App\Models\User;
+use App\Models\Chat;
 
 class IncidenciaController extends Controller
 {
@@ -60,5 +62,31 @@ class IncidenciaController extends Controller
     {
         $incidencias = Incidencia::where('usuario_creador', Auth::id())->get();
         return view('cliente.misincidencias', compact('incidencias'));
+    }
+
+    public function chat($id)
+    {
+        $incidencia = Incidencia::findOrFail($id);
+        $tecnico = User::find($incidencia->tecnico_asignado);
+        $chats = Chat::where('incidencia_id', $id)->get();
+        return view('cliente.chat', compact('incidencia', 'tecnico', 'chats'));
+    }
+
+    public function sendMessage(Request $request, $id)
+    {
+        $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        $incidencia = Incidencia::findOrFail($id);
+
+        $chat = new Chat();
+        $chat->incidencia_id = $id;
+        $chat->user_id = Auth::id();
+        $chat->tecnico_id = $incidencia->tecnico_asignado;
+        $chat->message = $request->message;
+        $chat->save();
+
+        return redirect()->route('incidencias.chat', $id);
     }
 }
