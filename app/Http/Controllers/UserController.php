@@ -14,8 +14,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        $usuarios = User::with('rol', 'seu')->paginate(15);
-        return view('admin', compact('usuarios'));
+        $usuarios = User::with('rol')->paginate(15);
+        $roles = Rol::all();
+        $seus = Seu::all();
+        return view('admin', compact('usuarios', 'roles', 'seus'));
     }
 
     /* METODOS INSERT*/
@@ -89,5 +91,29 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'No se pudo eliminar el usuario: ' . $e->getMessage());
         }
+    }
+
+    // FILTROS
+
+    public function filter(Request $request)
+    {
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('seu')) {
+            $query->where('seu', $request->seu);
+        }
+
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        $usuarios = $query->with('rol', 'seu')->get();
+
+        return response()->json($usuarios);
     }
 }

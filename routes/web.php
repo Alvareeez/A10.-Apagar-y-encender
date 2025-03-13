@@ -27,24 +27,31 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Redireccion inicial al login
 Route::get('/', IndexController::class);
 
-// Route::middleware(['auth'])->group(function () {
-Route::get('/admin', [UserController::class, 'index'])->name('admin');
-/* Rutas para el crud de usuarios */
-Route::controller(UserController::class)->group(function () {
-    Route::get('usuarios', 'index')->name('usuarios.index');
-    /* METODOS INSERT*/
-    Route::get('usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
-    Route::post('usuarios', [UserController::class, 'store'])->name('usuarios.store');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin', [UserController::class, 'index'])->name('admin');
+    /* Rutas para el crud de usuarios */
+    Route::controller(UserController::class)->group(function () {
+        Route::get('usuarios', 'index')->name('usuarios.index');
+        /* METODOS INSERT*/
+        Route::get('usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
+        Route::post('usuarios', [UserController::class, 'store'])->name('usuarios.store');
 
-    /* METODOS EDIT*/
-    Route::get('usuarios/{usuario}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
-    Route::put('usuarios/{usuario}', [UserController::class, 'update'])->name('usuarios.update');
+        /* METODOS EDIT*/
+        Route::get('usuarios/{usuario}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
+        Route::put('usuarios/{usuario}', [UserController::class, 'update'])->name('usuarios.update');
 
 
-    /* METODO DELETE */
-    Route::delete('usuarios/{usuario}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+        /* METODO DELETE */
+        Route::delete('usuarios/{usuario}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+        Route::get('usuarios', 'index')->name('usuarios.index');
+        Route::get('usuarios/filter', 'filter')->name('usuarios.filter'); // Ruta para filtrar usuarios
+        Route::get('usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
+        Route::post('usuarios', [UserController::class, 'store'])->name('usuarios.store');
+        Route::get('usuarios/{usuario}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
+        Route::put('usuarios/{usuario}', [UserController::class, 'update'])->name('usuarios.update');
+        Route::delete('usuarios/{usuario}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+    });
 });
-// });
 // Rutas según el rol
 Route::middleware('auth')->group(function () {
     // CLIENTE
