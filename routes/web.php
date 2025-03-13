@@ -4,7 +4,11 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\GestorController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IncidenciaController;
+use App\Http\Controllers\TecnicoController;
 
 // Ruta para la página de inicio de sesión
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -43,9 +47,6 @@ Route::controller(UserController::class)->group(function () {
 // });
 // Rutas según el rol
 Route::middleware('auth')->group(function () {
-    // ADMIN
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
     // CLIENTE
     Route::get('/cliente/dashboard', [ClienteController::class, 'dashboard'])->name('cliente.dashboard');
 
@@ -57,7 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/gestor/tecnico/{id}/incidencias', [GestorController::class, 'incidenciasTecnico'])->name('gestor.incidencias_tecnico');
     Route::get('/gestor/perfil', [GestorController::class, 'perfil'])->name('gestor.perfil');
     Route::put('/gestor/perfil', [GestorController::class, 'updateProfile'])->name('gestor.perfil.update');
-    
+
     // TECNICO
     Route::get('/tecnico/dashboard', [TecnicoController::class, 'dashboard'])->name('tecnico.dashboard');
     Route::get('/home', function () {

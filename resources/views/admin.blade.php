@@ -42,12 +42,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{-- @dd($usuarios); --}}
                         @foreach ($usuarios as $usuario)
                             <tr>
                                 <td>{{ $usuario->name }}</td>
                                 <td>{{ $usuario->email }}</td>
-                                <td>{{ $usuario->seu }}</td>
-                                <td>{{ $usuario->rol->roles }}</td>
+                                <td>{{ $usuario->Seu->seus }}</td>
+                                <td>{{ $usuario->Rol->roles }}</td>
                                 <td>
                                     <div class="d-flex">
 
