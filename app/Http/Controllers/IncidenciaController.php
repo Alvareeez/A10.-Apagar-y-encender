@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Seu;
 use App\Models\Incidencia;
 use App\Models\Categoria;
 use App\Models\Subcategoria;
+use App\Models\Prioridad;
+use App\Models\Estado;
 use App\Models\User;
 use App\Models\Chat;
 
@@ -18,8 +18,8 @@ class IncidenciaController extends Controller
     {
         $categorias = Categoria::all();
         $subcategorias = Subcategoria::all();
-        $seus = Seu::all();
-        return view('cliente.crearincidencias', compact('categorias', 'subcategorias', 'seus'));
+        $prioridades = Prioridad::all();
+        return view('cliente.crearincidencias', compact('categorias', 'subcategorias', 'prioridades'));
     }
 
     public function store(Request $request)
@@ -30,10 +30,8 @@ class IncidenciaController extends Controller
             'subcategoria' => 'required|integer',
             'comentario' => 'required|string',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'estado' => 'required|integer',
             'prioridad' => 'required|integer',
             'categoria' => 'required|integer',
-            'seu' => 'required|integer', // Campo para almacenar la SEU del usuario autenticado
         ]);
 
         $incidencia = new Incidencia();
@@ -43,7 +41,7 @@ class IncidenciaController extends Controller
         $incidencia->comentario = $request->comentario;
         $incidencia->usuario_creador = Auth::id(); // Asociar el usuario autenticado como creador
         $incidencia->tecnico_asignado = null; // No asignar técnico por defecto
-        $incidencia->estado = $request->estado;
+        $incidencia->estado = 1; // Estado por defecto "Sin asignar"
         $incidencia->prioridad = $request->prioridad;
         $incidencia->categoria = $request->categoria;
         $incidencia->seu = Auth::user()->seu; // Asociar la sede del usuario autenticado
@@ -60,7 +58,7 @@ class IncidenciaController extends Controller
 
     public function index()
     {
-        $incidencias = Incidencia::where('usuario_creador', Auth::id())->get();
+        $incidencias = Incidencia::with(['subcategoria', 'creador', 'tecnico', 'estado', 'prioridad', 'categoria'])->where('usuario_creador', Auth::id())->get();
         return view('cliente.misincidencias', compact('incidencias'));
     }
 

@@ -62,7 +62,7 @@ class Incidencia extends Model
      */
     public function subcategoria()
     {
-        return $this->belongsTo(Subcategoria::class);
+        return $this->belongsTo(Subcategoria::class, 'subcategoria');
     }
     
     /**
@@ -73,10 +73,22 @@ class Incidencia extends Model
         return $this->belongsTo(User::class, 'usuario_creador');
     }
 
+    /**
+     * Relación: Una incidencia pertenece a una sede.
+     */
     public function seu()
     {
         return $this->belongsTo(Seu::class, 'seu');
     }
+
+    /**
+     * Relación: Una incidencia pertenece a una categoría.
+     */
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria');
+    }
+
     /**
      * Relación: Una incidencia tiene muchos chats.
      */
