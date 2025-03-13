@@ -36,12 +36,11 @@
                     <div>
                         <label for="estado">Filtrar por estado:</label>
                         <select name="estado" id="estado">
-                            <option value="">Todos</option>
-                            <option value="{{ \App\Models\Incidencia::ESTADO_ABIERTA }}">Abierta</option>
-                            <option value="{{ \App\Models\Incidencia::ESTADO_ASIGNADA }}">Asignada</option>
-                            <option value="{{ \App\Models\Incidencia::ESTADO_EN_PROGRESO }}">En progreso</option>
-                            <option value="{{ \App\Models\Incidencia::ESTADO_RESUELTA }}">Resuelta</option>
-                            <option value="{{ \App\Models\Incidencia::ESTADO_CERRADA }}">Cerrada</option>
+                            <option>Sin asignar</option>
+                            <option>Asignada</option>
+                            <option>En trabajo</option>
+                            <option>Resuelta</option>
+                            <option>Cerrada</option>
                         </select>
                     </div>
                     <div class="flex items-end">

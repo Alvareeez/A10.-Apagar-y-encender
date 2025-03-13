@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Seu;
 use App\Models\Incidencia;
 use App\Models\Categoria;
 use App\Models\Subcategoria;
@@ -15,7 +16,8 @@ class IncidenciaController extends Controller
     {
         $categorias = Categoria::all();
         $subcategorias = Subcategoria::all();
-        return view('cliente.crearincidencias', compact('categorias', 'subcategorias'));
+        $seus = Seu::all();
+        return view('cliente.crearincidencias', compact('categorias', 'subcategorias', 'seus'));
     }
 
     public function store(Request $request)
@@ -29,6 +31,7 @@ class IncidenciaController extends Controller
             'estado' => 'required|integer',
             'prioridad' => 'required|integer',
             'categoria' => 'required|integer',
+            'seu' => 'required|integer', // Campo para almacenar la SEU del usuario autenticado
         ]);
 
         $incidencia = new Incidencia();
@@ -41,6 +44,7 @@ class IncidenciaController extends Controller
         $incidencia->estado = $request->estado;
         $incidencia->prioridad = $request->prioridad;
         $incidencia->categoria = $request->categoria;
+        $incidencia->seu = Auth::user()->seu; // Asociar la sede del usuario autenticado
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->storeAs('img', $request->file('imagen')->getClientOriginalName(), 'public');

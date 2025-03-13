@@ -83,7 +83,10 @@
         <div class="username">{{ Auth::user()->name }}</div>
         <a href="{{ url('crearincidencias') }}" class="button">Crear Incidencias</a>
         <a href="{{ url('misincidencias') }}" class="button">Mis Incidencias</a>
-        <a href="{{ route('logout') }}" class="button" style="background-color: #FF6347;">Cerrar sesión</a>
+        <form action="{{ route('logout') }}" method="POST" class="logout-form">
+            @csrf
+            <button type="submit" class="logout">Cerrar sesión</button>
+        </form>
     </div>
     <div class="content">
         <h1>Crear Incidencia</h1>
@@ -128,6 +131,14 @@
             <div class="form-group">
                 <label for="imagen">Imagen:</label>
                 <input type="file" id="imagen" name="imagen" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="seu">Sede:</label>
+                <select id="seu" name="seu">
+                    @foreach($seus as $seu)
+                        <option value="{{ $seu->id }}">{{ $seu->seu }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
                 <button type="submit">Enviar Incidencia</button>

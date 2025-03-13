@@ -42,7 +42,7 @@ class GestorController extends Controller
         $incidencias = $incidencias->get();
 
         // Obtener el rol "Tecnico" de la tabla "roles"
-        $roleTecnico = Rol::where('roles', 'Técnico de Mantenimiento')->first();
+        $roleTecnico = Rol::where('roles', 'tècnic manteniment')->first();
 
         if (!$roleTecnico) {
             return redirect()->route('gestor.dashboard')->with('error', 'El rol "Tecnico" no existe en la base de datos.');
@@ -58,18 +58,7 @@ class GestorController extends Controller
 
     public function tecnicos()
     {
-        // Obtener el rol "Tecnico" de la tabla "roles"
-        $roleTecnico = Rol::where('roles', 'Técnico de Mantenimiento')->first();
-
-        if (!$roleTecnico) {
-            return redirect()->route('gestor.dashboard')->with('error', 'El rol "Tecnico" no existe en la base de datos.');
-        }
-
-        // Obtener los usuarios con el rol "Tecnico" y que pertenezcan a la misma sede que el gestor actual
-        $tecnicos = User::where('role', $roleTecnico->id)
-                        ->where('seu', Auth::user()->seu)
-                        ->get();
-
+        $tecnicos = User::where('role', 'tecnico')->get();
         return view('gestor.tecnicos', compact('tecnicos'));
     }
 

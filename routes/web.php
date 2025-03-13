@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     // GESTOR
     Route::get('/gestor/dashboard', [GestorController::class, 'dashboard'])->name('gestor.dashboard');
     Route::post('/gestor/incidencia/{id}/asignar', [GestorController::class, 'asignarTecnico'])->name('gestor.incidencia.asignar');
+    Route::get('/gestor/tecnicos', [GestorController::class, 'tecnicos'])->name('gestor.tecnicos'); // Añadir esta línea
     
     // TECNICO
     Route::get('/tecnico/dashboard', [TecnicoController::class, 'dashboard'])->name('tecnico.dashboard');
