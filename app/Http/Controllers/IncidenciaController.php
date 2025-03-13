@@ -89,4 +89,5 @@ class IncidenciaController extends Controller
 
         return redirect()->route('incidencias.chat', $id);
     }
+
 }

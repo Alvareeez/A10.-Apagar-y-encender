@@ -41,9 +41,6 @@ class Incidencia extends Model
         return $this->belongsTo(User::class, 'tecnico_asignado');
     }
 
-    /**
-     * Relación: Una incidencia tiene un estado.
-     */
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'estado');
@@ -77,6 +74,7 @@ class Incidencia extends Model
     {
         return $this->belongsTo(Seu::class, 'seu');
     }
+
     /**
      * Relación: Una incidencia tiene muchos chats.
      */
@@ -85,4 +83,3 @@ class Incidencia extends Model
         return $this->hasMany(Chat::class);
     }
 }
-
