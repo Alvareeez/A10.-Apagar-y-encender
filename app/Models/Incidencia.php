@@ -2,23 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Incidencia extends Model
 {
+    use HasFactory;
+
     protected $table = 'incidencia';
 
     protected $fillable = [
         'titulo',
         'descripcion',
+        'subcategoria',
+        'comentario',
         'imagen',
-        'cliente_id',
+        'usuario_creador',
         'tecnico_asignado',
         'estado',
         'prioridad',
         'categoria',
-        'created_at',
-        'updated_at',
     ];
 
     /**
@@ -34,7 +37,7 @@ class Incidencia extends Model
      */
     public function tecnico()
     {
-        return $this->belongsTo(User::class, 'tecnico_asignado')->nullable();
+        return $this->belongsTo(User::class, 'tecnico_asignado');
     }
 
     /**
@@ -54,10 +57,26 @@ class Incidencia extends Model
     }
 
     /**
-     * Relación: Una incidencia pertenece a una categoría.
+     * Relación: Una incidencia pertenece a una subcategoría (Ej: "Teclado no funciona").
      */
-    public function categoria()
+    public function subcategoria()
     {
-        return $this->belongsTo(Categoria::class, 'categoria');
+        return $this->belongsTo(Subcategoria::class);
+    }
+
+    /**
+     * Relación: Una incidencia pertenece a un creador (usuario que la creó).
+     */
+    public function creador()
+    {
+        return $this->belongsTo(User::class, 'usuario_creador');
+    }
+
+    /**
+     * Relación: Una incidencia tiene muchos chats.
+     */
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
     }
 }
