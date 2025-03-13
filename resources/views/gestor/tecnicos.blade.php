@@ -39,15 +39,7 @@
             </div>
         </div>
     </div>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const hamburger = document.getElementById('hamburger');
-            sidebar.classList.toggle('visible');
-            sidebar.classList.toggle('hidden');
-            hamburger.style.zIndex = sidebar.classList.contains('visible') ? '1001' : '1000';
-        }
-    </script>
+    <script src="{{asset('js/hamburger.js')}}"></script>
     <!-- Incluir Bootstrap JS y dependencias -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
