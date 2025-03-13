@@ -77,7 +77,6 @@ class Incidencia extends Model
     {
         return $this->belongsTo(Seu::class, 'seu');
     }
-}
     /**
      * Relación: Una incidencia tiene muchos chats.
      */
