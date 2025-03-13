@@ -56,8 +56,16 @@ class IncidenciaController extends Controller
 
     public function index()
     {
-        $incidencias = Incidencia::with(['subcategoria', 'creador', 'tecnico', 'estado', 'prioridad', 'categoria'])->where('usuario_creador', Auth::id())->get();
-        return view('cliente.misincidencias', compact('incidencias'));
+        $categorias = Categoria::all();
+        $subcategorias = Subcategoria::all();
+        $tecnicos = User::where('role', 4)->where('seu', Auth::user()->seu)->get();
+        $estados = Estado::all();
+        $prioridades = Prioridad::all();
+        $incidencias = Incidencia::with(['Subcategoria', 'creador', 'tecnico', 'Estado', 'Prioridad', 'Categoria'])
+                                 ->where('usuario_creador', Auth::id())
+                                 ->get();
+
+        return view('cliente.misincidencias', compact('categorias', 'subcategorias', 'tecnicos', 'estados', 'prioridades', 'incidencias'));
     }
 
     public function chat($id)
@@ -84,5 +92,40 @@ class IncidenciaController extends Controller
         $chat->save();
 
         return redirect()->route('incidencias.chat', $id);
+    }
+
+    public function filter(Request $request)
+    {
+        $query = Incidencia::query();
+
+        if ($request->filled('titulo')) {
+            $query->where('titulo', 'like', '%' . $request->titulo . '%');
+        }
+
+        if ($request->filled('categoria')) {
+            $query->where('categoria', $request->categoria);
+        }
+
+        if ($request->filled('subcategoria')) {
+            $query->where('subcategoria', $request->subcategoria);
+        }
+
+        if ($request->filled('tecnico')) {
+            $query->where('tecnico_asignado', $request->tecnico);
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        if ($request->filled('prioridad')) {
+            $query->where('prioridad', $request->prioridad);
+        }
+
+        $incidencias = $query->with(['Subcategoria', 'creador', 'tecnico', 'Estado', 'Prioridad', 'Categoria'])
+                             ->where('usuario_creador', Auth::id())
+                             ->get();
+
+        return view('cliente.incidencias_list', compact('incidencias'))->render();
     }
 }

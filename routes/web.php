@@ -39,6 +39,7 @@ Route::post('incidencias', [IncidenciaController::class, 'store'])->name('incide
 Route::get('misincidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
 Route::get('/incidencias/chat/{id}', [IncidenciaController::class, 'chat'])->name('incidencias.chat');
 Route::post('/incidencias/chat/{id}', [IncidenciaController::class, 'sendMessage'])->name('incidencias.sendMessage');
+Route::get('incidencias/filter', [IncidenciaController::class, 'filter'])->name('incidencias.filter');
 
 Route::get('/perfil', [ClienteController::class, 'showProfile'])->name('perfil.show');
 Route::put('/perfil', [ClienteController::class, 'updateProfile'])->name('perfil.update');
