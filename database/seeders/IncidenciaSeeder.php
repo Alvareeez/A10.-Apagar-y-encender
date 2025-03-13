@@ -3,51 +3,67 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Incidencia;
-use App\Models\User;
-use App\Models\Estado;
-use App\Models\Prioridad;
-use App\Models\Categoria;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class IncidenciaSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        // Obtener IDs válidos
-        $cliente = User::where('email', 'cliente.barcelona@example.com')->first()->id;
-        $tecnico = User::where('email', 'tecnico.barcelona@example.com')->first()->id;
-        $estadoSinAsignar = Estado::where('estado', 'Sin asignar')->first()->id;
-        $estadoAsignada = Estado::where('estado', 'Asignada')->first()->id;
-        $prioridadAlta = Prioridad::where('prioridad', 'Alta')->first()->id;
-        $categoriaHardware = Categoria::where('categoria', 'Hardware')->first()->id; // Asegúrate de que esta categoría exista
-
+        // Datos de prueba para la tabla 'incidencia'
         $incidencias = [
             [
-                'titulo' => 'Teclado no responde',
-                'descripcion' => 'El teclado no responde correctamente.',
-                'cliente_id' => $cliente,
-                'tecnico_asignado' => null, // Sin técnico asignado inicialmente
-                'estado' => $estadoSinAsignar,
-                'prioridad' => $prioridadAlta,
-                'categoria' => $categoriaHardware, // Usar el ID válido de la categoría
+                'titulo' => 'Problema con impresora',
+                'descripcion' => 'La impresora no imprime correctamente.',
+                'subcategoria' => 'Hardware',
+                'comentario' => 'Se necesita revisión técnica urgente.',
+                'imagen' => null,
+                'usuario_creador' => 1, // ID de un usuario existente en la tabla 'users'
+                'tecnico_asignado' => 2, // ID de un usuario existente en la tabla 'users'
+                'estado' => 1, // ID de un estado existente en la tabla 'estado'
+                'prioridad' => 2, // ID de una prioridad existente en la tabla 'prioridad'
+                'categoria' => 3, // ID de una categoría existente en la tabla 'categorias'
+                'seu' => 1, // ID de una sede existente en la tabla 'seus'
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'titulo' => 'Monitor no se enciende',
-                'descripcion' => 'El monitor no muestra señal.',
-                'cliente_id' => $cliente,
-                'tecnico_asignado' => $tecnico,
-                'estado' => $estadoAsignada,
-                'prioridad' => $prioridadAlta,
-                'categoria' => $categoriaHardware, // Usar el ID válido de la categoría
+                'titulo' => 'Fallo en el sistema',
+                'descripcion' => 'El sistema se bloquea al iniciar sesión.',
+                'subcategoria' => 'Software',
+                'comentario' => 'Posible conflicto con la versión actual.',
+                'imagen' => 'imagenes/fallo_sistema.jpg',
+                'usuario_creador' => 2,
+                'tecnico_asignado' => 9, // Sin técnico asignado
+                'estado' => 3,
+                'prioridad' => 1,
+                'categoria' => 2,
+                'seu' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'titulo' => 'Pérdida de conexión',
+                'descripcion' => 'No hay conexión a internet en la oficina principal.',
+                'subcategoria' => 'Red',
+                'comentario' => 'Verificar configuración del router.',
+                'imagen' => null,
+                'usuario_creador' => 3,
+                'tecnico_asignado' => 9,
+                'estado' => 2,
+                'prioridad' => 3,
+                'categoria' => 1,
+                'seu' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ];
 
-        foreach ($incidencias as $incidencia) {
-            Incidencia::create($incidencia);
-        }
+        // Insertar los datos en la tabla 'incidencia'
+        DB::table('incidencia')->insert($incidencias);
     }
 }
