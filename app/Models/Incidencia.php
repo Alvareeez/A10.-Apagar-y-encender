@@ -38,7 +38,7 @@ class Incidencia extends Model
      */
     public function tecnico()
     {
-        return $this->belongsTo(User::class, 'tecnico_asignado');
+        return $this->belongsTo(User::class, 'tecnico_asignado', 'id');
     }
 
     /**
@@ -46,7 +46,7 @@ class Incidencia extends Model
      */
     public function estado()
     {
-        return $this->belongsTo(Estado::class, 'estado');
+        return $this->belongsTo(Estado::class, 'estado', 'id');
     }
 
     /**
@@ -54,7 +54,7 @@ class Incidencia extends Model
      */
     public function prioridad()
     {
-        return $this->belongsTo(Prioridad::class, 'prioridad');
+        return $this->belongsTo(Prioridad::class, 'prioridad', 'id');
     }
 
     /**
@@ -62,7 +62,7 @@ class Incidencia extends Model
      */
     public function subcategoria()
     {
-        return $this->belongsTo(Subcategoria::class, 'subcategoria');
+        return $this->belongsTo(Subcategoria::class, 'subcategoria', 'id');
     }
     
     /**
@@ -70,7 +70,7 @@ class Incidencia extends Model
      */
     public function creador()
     {
-        return $this->belongsTo(User::class, 'usuario_creador');
+        return $this->belongsTo(User::class, 'usuario_creador', 'id');
     }
 
     /**
@@ -86,7 +86,7 @@ class Incidencia extends Model
      */
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class, 'categoria');
+        return $this->belongsTo(Categoria::class, 'categoria', 'id');
     }
 
     /**
