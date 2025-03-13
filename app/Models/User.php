@@ -48,23 +48,15 @@ class User extends Authenticatable
         return $this->hasMany(Chat::class, 'tecnico_id');
     }
 
-    /**
-     * Relación: Un usuario pertenece a un rol.
-     */
+    // Relación con el modelo Rol
     public function rol()
     {
-        return $this->belongsTo(Rol::class);
+        return $this->belongsTo(Rol::class, 'role'); // 'role' es la clave foránea en la tabla 'users'
     }
 
-    /**
-     * Relación: Un usuario pertenece a una sede.
-     */
+    // Relación con el modelo Seu
     public function seu()
     {
-        return $this->belongsTo(Seu::class);
-    }
-    public function incidencias()
-    {
-        return $this->hasMany(Incidencia::class);
+        return $this->belongsTo(Seu::class, 'seu'); // 'seu' es la clave foránea en la tabla 'users'
     }
 }

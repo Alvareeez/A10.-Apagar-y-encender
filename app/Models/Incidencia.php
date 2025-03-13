@@ -22,6 +22,7 @@ class Incidencia extends Model
         'estado',
         'prioridad',
         'categoria',
+        'seu',
     ];
 
     /**
@@ -63,7 +64,7 @@ class Incidencia extends Model
     {
         return $this->belongsTo(Subcategoria::class);
     }
-
+    
     /**
      * Relación: Una incidencia pertenece a un creador (usuario que la creó).
      */
@@ -72,6 +73,11 @@ class Incidencia extends Model
         return $this->belongsTo(User::class, 'usuario_creador');
     }
 
+    public function seu()
+    {
+        return $this->belongsTo(Seu::class, 'seu');
+    }
+}
     /**
      * Relación: Una incidencia tiene muchos chats.
      */
@@ -80,3 +86,4 @@ class Incidencia extends Model
         return $this->hasMany(Chat::class);
     }
 }
+
