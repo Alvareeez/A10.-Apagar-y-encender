@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_photo',
         'role',
         'seu',
     ];
@@ -47,7 +48,25 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function incidenciasCreadas()
+    {
+        return $this->hasMany(Incidencia::class, 'usuario_creador');
+    }
 
+    public function incidenciasAsignadas()
+    {
+        return $this->hasMany(Incidencia::class, 'tecnico_asignado');
+    }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
+    }
+
+    public function chatsTecnico()
+    {
+        return $this->hasMany(Chat::class, 'tecnico_id');
+    }
     /**
      * Relación: Un usuario pertenece a un rol.
      */

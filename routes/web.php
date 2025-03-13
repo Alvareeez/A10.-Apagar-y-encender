@@ -41,3 +41,35 @@ Route::controller(UserController::class)->group(function () {
     Route::delete('usuarios/{usuario}', [UserController::class, 'destroy'])->name('usuarios.destroy');
 });
 // });
+// Rutas según el rol
+Route::middleware('auth')->group(function () {
+    // ADMIN
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    // CLIENTE
+    Route::get('/cliente/dashboard', [ClienteController::class, 'dashboard'])->name('cliente.dashboard');
+
+    // GESTOR
+    Route::get('/gestor/dashboard', [GestorController::class, 'dashboard'])->name('gestor.dashboard');
+    Route::get('/gestor/incidencias', [GestorController::class, 'incidencias'])->name('gestor.incidencias');
+    Route::post('/gestor/incidencia/{id}/asignar', [GestorController::class, 'asignarTecnico'])->name('gestor.incidencia.asignar');
+    Route::get('/gestor/tecnicos', [GestorController::class, 'tecnicos'])->name('gestor.tecnicos');
+    Route::get('/gestor/tecnico/{id}/incidencias', [GestorController::class, 'incidenciasTecnico'])->name('gestor.incidencias_tecnico');
+    Route::get('/gestor/perfil', [GestorController::class, 'perfil'])->name('gestor.perfil');
+    Route::put('/gestor/perfil', [GestorController::class, 'updateProfile'])->name('gestor.perfil.update');
+    
+    // TECNICO
+    Route::get('/tecnico/dashboard', [TecnicoController::class, 'dashboard'])->name('tecnico.dashboard');
+    Route::get('/home', function () {
+        return view('home'); // Página por defecto
+    })->name('home');
+});
+
+Route::get('crearincidencias', [IncidenciaController::class, 'create'])->name('incidencias.create');
+Route::post('incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store');
+Route::get('misincidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
+Route::get('/incidencias/chat/{id}', [IncidenciaController::class, 'chat'])->name('incidencias.chat');
+Route::post('/incidencias/chat/{id}', [IncidenciaController::class, 'sendMessage'])->name('incidencias.sendMessage');
+
+Route::get('/perfil', [ClienteController::class, 'showProfile'])->name('perfil.show');
+Route::put('/perfil', [ClienteController::class, 'updateProfile'])->name('perfil.update');

@@ -2,23 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Incidencia extends Model
 {
+    use HasFactory;
 
     protected $table = 'incidencia';
 
     protected $fillable = [
         'titulo',
         'descripcion',
-        'cliente_id', // Usuario que creó la incidencia
-        'tecnico_id', // Usuario asignado (nullable hasta que se asigne)
-        'estado_id',
-        'prioridad_id',
-        'subcategoria_id',
-        'fecha_creacion',
-        'fecha_resolucion',
+        'subcategoria',
+        'comentario',
+        'imagen',
+        'usuario_creador',
+        'tecnico_asignado',
+        'estado',
+        'prioridad',
+        'categoria',
+        'seu',
     ];
 
     /**
@@ -34,23 +38,23 @@ class Incidencia extends Model
      */
     public function tecnico()
     {
-        return $this->belongsTo(User::class, 'tecnico_id')->nullable();
+        return $this->belongsTo(User::class, 'tecnico_asignado');
     }
 
     /**
-     * Relación: Una incidencia tiene un estado (Sin asignar, Asignada, En trabajo, Resuelta, Cerrada).
+     * Relación: Una incidencia tiene un estado.
      */
     public function estado()
     {
-        return $this->belongsTo(Estado::class);
+        return $this->belongsTo(Estado::class, 'estado');
     }
 
     /**
-     * Relación: Una incidencia tiene una prioridad (Alta, Media, Baja).
+     * Relación: Una incidencia tiene una prioridad.
      */
     public function prioridad()
     {
-        return $this->belongsTo(Prioridad::class);
+        return $this->belongsTo(Prioridad::class, 'prioridad');
     }
 
     /**
@@ -58,6 +62,39 @@ class Incidencia extends Model
      */
     public function subcategoria()
     {
-        return $this->belongsTo(Subcategoria::class);
+        return $this->belongsTo(Subcategoria::class, 'subcategoria');
+    }
+    
+    /**
+     * Relación: Una incidencia pertenece a un creador (usuario que la creó).
+     */
+    public function creador()
+    {
+        return $this->belongsTo(User::class, 'usuario_creador');
+    }
+
+    /**
+     * Relación: Una incidencia pertenece a una sede.
+     */
+    public function seu()
+    {
+        return $this->belongsTo(Seu::class, 'seu');
+    }
+
+    /**
+     * Relación: Una incidencia pertenece a una categoría.
+     */
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria');
+    }
+
+    /**
+     * Relación: Una incidencia tiene muchos chats.
+     */
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
     }
 }
+

@@ -11,6 +11,11 @@ class Seu extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'seu'); // Relación con el modelo User
+        return $this->hasMany(User::class, 'seu'); // Relación con User, usando 'seu' como clave foránea
+    }
+
+    public function incidencias()
+    {
+        return $this->hasMany(Incidencia::class, 'seu'); // Relación con Incidencia, usando 'seu' como clave foránea
     }
 }
