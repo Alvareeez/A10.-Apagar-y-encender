@@ -1,0 +1,13 @@
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+}

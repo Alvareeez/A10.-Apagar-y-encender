@@ -25,9 +25,9 @@ return new class extends Migration
             // RELACION PRIORIDAD
             $table->unsignedBigInteger('prioridad');
             $table->foreign('prioridad')->references('id')->on('prioridad')->onDelete('cascade');
-            // RELACION CATEGORIA
-            $table->unsignedBigInteger('categoria');
-            $table->foreign('categoria')->references('id')->on('categorias')->onDelete('cascade');
+            // RELACION SUBCATEGORIA
+            $table->unsignedBigInteger('subcategoria');
+            $table->foreign('subcategoria')->references('id')->on('subcategorias')->onDelete('cascade');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });

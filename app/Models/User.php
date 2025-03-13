@@ -53,7 +53,7 @@ class User extends Authenticatable
      */
     public function rol()
     {
-        return $this->belongsTo(Rol::class);
+        return $this->belongsTo(Rol::class, 'role');
     }
 
     /**
@@ -61,7 +61,7 @@ class User extends Authenticatable
      */
     public function seu()
     {
-        return $this->belongsTo(Seu::class);
+        return $this->belongsTo(Seu::class, 'seu');
     }
     public function incidencias()
     {

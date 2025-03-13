@@ -11,6 +11,6 @@ class Seu extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'seu_id'); // Relación con el modelo User
+        return $this->hasMany(User::class, 'seu'); // Relación con el modelo User
     }
 }
