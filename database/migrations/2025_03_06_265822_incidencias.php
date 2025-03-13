@@ -33,6 +33,9 @@ return new class extends Migration
             // RELACION CATEGORIA
             $table->unsignedBigInteger('categoria');
             $table->foreign('categoria')->references('id')->on('categorias')->onDelete('cascade');
+            // RELACION SEDE
+            $table->unsignedBigInteger('seu');
+            $table->foreign('seu')->references('id')->on('seus')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -45,3 +48,5 @@ return new class extends Migration
         Schema::dropIfExists('incidencia');
     }
 };
+
+

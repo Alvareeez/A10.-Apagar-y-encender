@@ -22,6 +22,7 @@ class Incidencia extends Model
         'estado',
         'prioridad',
         'categoria',
+        'seu',
     ];
 
     /**
@@ -41,19 +42,19 @@ class Incidencia extends Model
     }
 
     /**
-     * Relación: Una incidencia tiene un estado (Sin asignar, Asignada, En trabajo, Resuelta, Cerrada).
+     * Relación: Una incidencia tiene un estado.
      */
     public function estado()
     {
-        return $this->belongsTo(Estado::class);
+        return $this->belongsTo(Estado::class, 'estado');
     }
 
     /**
-     * Relación: Una incidencia tiene una prioridad (Alta, Media, Baja).
+     * Relación: Una incidencia tiene una prioridad.
      */
     public function prioridad()
     {
-        return $this->belongsTo(Prioridad::class);
+        return $this->belongsTo(Prioridad::class, 'prioridad');
     }
 
     /**
@@ -63,7 +64,7 @@ class Incidencia extends Model
     {
         return $this->belongsTo(Subcategoria::class);
     }
-
+    
     /**
      * Relación: Una incidencia pertenece a un creador (usuario que la creó).
      */
@@ -72,6 +73,11 @@ class Incidencia extends Model
         return $this->belongsTo(User::class, 'usuario_creador');
     }
 
+    public function seu()
+    {
+        return $this->belongsTo(Seu::class, 'seu');
+    }
+}
     /**
      * Relación: Una incidencia tiene muchos chats.
      */
@@ -80,3 +86,4 @@ class Incidencia extends Model
         return $this->hasMany(Chat::class);
     }
 }
+
