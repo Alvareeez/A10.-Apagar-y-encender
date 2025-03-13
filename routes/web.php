@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/gestor/incidencia/{id}/asignar', [GestorController::class, 'asignarTecnico'])->name('gestor.incidencia.asignar');
     Route::get('/gestor/tecnicos', [GestorController::class, 'tecnicos'])->name('gestor.tecnicos');
     Route::get('/gestor/tecnico/{id}/incidencias', [GestorController::class, 'incidenciasTecnico'])->name('gestor.incidencias_tecnico');
+    Route::get('/gestor/incidencia/{id}', [GestorController::class, 'detallesIncidencia'])->name('gestor.detalles_incidencia');
     Route::get('/gestor/perfil', [GestorController::class, 'perfil'])->name('gestor.perfil');
     Route::put('/gestor/perfil', [GestorController::class, 'updateProfile'])->name('gestor.perfil.update');
 

@@ -7,6 +7,7 @@ use App\Models\Incidencia;
 use App\Models\User;
 use App\Models\Rol;
 use App\Models\Seu;
+use App\Models\Estado;
 use Illuminate\Support\Facades\Auth; // Importar el facade Auth
 use Illuminate\Support\Facades\Storage;
 
@@ -47,7 +48,10 @@ class GestorController extends Controller
             ->where('seu', Auth::user()->seu) // Usar el facade Auth
             ->get();
 
-        return view('gestor.incidencias', compact('incidencias', 'tecnicos'));
+        // Obtener los estados
+        $estados = Estado::all();
+
+        return view('gestor.incidencias', compact('incidencias', 'tecnicos', 'estados'));
     }
 
     public function tecnicos()
@@ -61,7 +65,7 @@ class GestorController extends Controller
 
         // Obtener los usuarios con el rol "Tecnico" y que pertenezcan a la misma sede que el gestor actual
         $tecnicos = User::where('role', $roleTecnico->id)
-            ->where('seu', Auth::user()->seu) // Usar el facade Auth
+            ->where('seu', Auth::user()->seu)
             ->get();
 
         return view('gestor.tecnicos', compact('tecnicos'));
@@ -95,11 +99,25 @@ class GestorController extends Controller
         // Asignar el técnico y la prioridad a la incidencia
         $incidencia = Incidencia::findOrFail($id);
         $incidencia->tecnico_asignado = $request->tecnico_id;
-        $incidencia->prioridad = $request->prioridad;
-        $incidencia->estado = 'asignada'; // Establecer el estado a 'asignada' o el valor correspondiente
+        $incidencia->prioridad = $this->convertirPrioridad($request->prioridad); // Aquí se convierte a entero
+        $incidencia->estado = 2; // Cambiar el estado a 'Asignada'
         $incidencia->save();
 
         return redirect()->route('gestor.incidencias')->with('success', 'Incidencia asignada correctamente.');
+    }
+
+    private function convertirPrioridad($prioridad)
+    {
+        switch ($prioridad) {
+            case 'alta':
+                return 1;
+            case 'media':
+                return 2;
+            case 'baja':
+                return 3;
+            default:
+                return 2; // Valor por defecto
+        }
     }
 
     public function perfil()

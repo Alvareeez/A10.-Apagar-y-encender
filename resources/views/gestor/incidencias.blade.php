@@ -39,14 +39,29 @@
                             <h3>{{ $incidencia->titulo }}</h3>
                             <p>{{ $incidencia->descripcion }}</p>
                             <div class="info mb-3">
-                                <span class="badge badge-info">Prioridad: {{ $incidencia->prioridad }}</span>
-                                <span class="badge badge-secondary">Estado: {{ $incidencia->estado }}</span>
+                                <span class="badge 
+                                    @if($incidencia->prioridad_nombre == 'Alta') badge-prioridad-alta 
+                                    @elseif($incidencia->prioridad_nombre == 'Media') badge-prioridad-media 
+                                    @elseif($incidencia->prioridad_nombre == 'Baja') badge-prioridad-baja 
+                                    @endif">
+                                    Prioridad: {{ $incidencia->prioridad_nombre }}
+                                </span>
+                                <span class="badge 
+                                    @if($incidencia->estado_nombre == 'Sin Asignar') badge-sin-asignar 
+                                    @elseif($incidencia->estado_nombre == 'Asignada') badge-asignada 
+                                    @elseif($incidencia->estado_nombre == 'En Trabajo') badge-en-trabajo 
+                                    @elseif($incidencia->estado_nombre == 'Resuelta') badge-resuelta 
+                                    @elseif($incidencia->estado_nombre == 'Cerrada') badge-cerrada 
+                                    @endif">
+                                    Estado: {{ $incidencia->estado_nombre }}
+                                </span>
                             </div>
                             <form action="{{ route('gestor.incidencia.asignar', $incidencia->id) }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="prioridad">Asignar nivel de prioridad:</label>
                                     <select name="prioridad" id="prioridad" class="form-control">
+                                        <option value="" disabled>Seleccionar prioridad</option>
                                         <option value="alta">Alta</option>
                                         <option value="media">Media</option>
                                         <option value="baja">Baja</option>

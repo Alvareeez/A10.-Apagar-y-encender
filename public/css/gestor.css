@@ -118,7 +118,7 @@ body {
 }
 
 .incidencia-card p {
-    margin: 0 0 10px 0;
+    margin: 0 0 20px 0;
 }
 
 .incidencia-card .info {
@@ -127,6 +127,55 @@ body {
 
 .incidencia-card .form-group {
     margin-bottom: 10px;
+}
+
+select.form-control {
+    width: auto; /* Ajusta el ancho automáticamente */
+    min-width: 200px; /* Establece un ancho mínimo */
+    height: auto;
+    white-space: normal; /* Permite que el texto se ajuste automáticamente */
+}
+
+/* Estilos para los estados */
+.badge-sin-asignar {
+    background-color: grey;
+    color: white;
+}
+
+.badge-asignada {
+    background-color: blue;
+    color: white;
+}
+
+.badge-en-trabajo {
+    background-color: yellow;
+    color: black;
+}
+
+.badge-resuelta {
+    background-color: green;
+    color: white;
+}
+
+.badge-cerrada {
+    background-color: red;
+    color: white;
+}
+
+/* Estilos para las prioridades */
+.badge-prioridad-alta {
+    background-color: red;
+    color: white;
+}
+
+.badge-prioridad-media {
+    background-color: yellow;
+    color: black;
+}
+
+.badge-prioridad-baja {
+    background-color: green;
+    color: white;
 }
 
 @media (max-width: 768px) {

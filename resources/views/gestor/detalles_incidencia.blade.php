@@ -7,34 +7,51 @@
     <link href="{{ asset('css/gestor.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div class="sidebar">
-        <img src="https://via.placeholder.com/80" alt="Gestor">
-        <h2>Gestor</h2>
-        <a href="{{ route('gestor.dashboard') }}"><button>Ver incidencias</button></a>
-        <a href="{{ route('gestor.tecnicos') }}"><button>Técnicos</button></a>
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="sidebar hidden" id="sidebar">
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');"
+            onclick="window.location.href='{{ url('/gestor/perfil') }}'"></div>
+        <div class="username">{{ Auth::user()->name }}</div>
+        <a href="{{ route('gestor.dashboard') }}"><button class="button">Inicio</button></a>
+        <a href="{{ route('gestor.incidencias') }}"><button class="button">Incidencias</button></a>
+        <a href="{{ route('gestor.tecnicos') }}"><button class="button">Técnicos</button></a>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf
-            <button type="submit" class="logout">Cerrar sesión</button>
+            <button type="submit" class="button-logout">Cerrar sesión</button>
         </form>
     </div>
     <div class="content">
         <div class="container">
             <h1>Detalles de la Incidencia</h1>
-            <div class="incidencia-detalles">
+            <div class="incidencia-card">
                 <h3>{{ $incidencia->titulo }}</h3>
                 <p>{{ $incidencia->descripcion }}</p>
                 <div class="info">
-                    <span>Estado actual: {{ $incidencia->estado }}</span>
-                    <span>Fecha de inicio: {{ $incidencia->created_at->format('d/m/Y') }}</span>
+                    <span>Prioridad: {{ $incidencia->prioridad_nombre }}</span>
+                    <br>
+                    <br>
+                    <span>Estado: {{ $incidencia->estado_nombre }}</span>
                 </div>
-                <div class="imagenes">
-                    <h4>Imágenes:</h4>
-                    @foreach ($incidencia->imagenes as $imagen)
-                    <img src="{{ asset('storage/' . $imagen->ruta) }}" alt="Imagen de la incidencia">
-                    @endforeach
-                </div>
+                @if ($incidencia->imagen)
+                    <div class="imagen">
+                        <img src="{{ Storage::url($incidencia->imagen) }}" alt="Imagen de la incidencia">
+                    </div>
+                @endif
             </div>
         </div>
     </div>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const hamburger = document.getElementById('hamburger');
+            sidebar.classList.toggle('visible');
+            sidebar.classList.toggle('hidden');
+            hamburger.style.zIndex = sidebar.classList.contains('visible') ? '1001' : '1000';
+        }
+    </script>
 </body>
 </html>
