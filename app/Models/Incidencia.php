@@ -96,5 +96,37 @@ class Incidencia extends Model
     {
         return $this->hasMany(Chat::class);
     }
+
+    public function getPrioridadNombreAttribute()
+    {
+        switch ($this->prioridad) {
+            case 1:
+                return 'Alta';
+            case 2:
+                return 'Media';
+            case 3:
+                return 'Baja';
+            default:
+                return 'Desconocida';
+        }
+    }
+
+    public function getEstadoNombreAttribute()
+    {
+        switch ($this->estado) {
+            case 1:
+                return 'Sin asignar';
+            case 2:
+                return 'Asignada';
+            case 3:
+                return 'En trabajo';
+            case 4:
+                return 'Resuelta';
+            case 5:
+                return 'Cerrada';
+            default:
+                return 'Desconocido';
+        }
+    }
 }
 

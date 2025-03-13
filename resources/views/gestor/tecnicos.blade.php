@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Técnicos</title>
     <link href="{{ asset('css/gestor.css') }}" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -32,8 +33,7 @@
                 @foreach ($tecnicos as $tecnico)
                     <div class="tecnico-card">
                         <h3>{{ $tecnico->name }}</h3>
-                        <a href="{{ route('gestor.incidencias_tecnico', $tecnico->id) }}"><button>Ver
-                                Incidencias</button></a>
+                        <a href="{{ route('gestor.incidencias_tecnico', $tecnico->id) }}"><button class="btn btn-success">Ver Incidencias</button></a>
                     </div>
                 @endforeach
             </div>
@@ -48,6 +48,10 @@
             hamburger.style.zIndex = sidebar.classList.contains('visible') ? '1001' : '1000';
         }
     </script>
+    <!-- Incluir Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
