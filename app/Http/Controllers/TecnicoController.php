@@ -22,27 +22,37 @@ class TecnicoController extends Controller
         return view('tecnico.dashboard', compact('incidencies'));
     }
 
-    /**
-     * Filtrar incidencias por estado.
-     */
     public function filter(Request $request)
     {
-        $filter = $request->input('filter');
-
-        // Obtener las incidencias según el filtro
-        $query = Incidencia::where('tecnico_asignado', Auth::id());
-
-        if ($filter !== 'all') {
-            $query->where('estado', $filter);
+        $search = $request->input('search'); // Valor del campo de búsqueda
+        $filter = $request->input('filter'); // Valor del filtro de estado
+    
+        // Consulta base
+        $query = Incidencia::query();
+    
+        // Aplicar filtro de búsqueda
+        if (!empty($search)) {
+            $query->where('titulo', 'LIKE', '%' . $search . '%');
         }
-
-        $incidencies = $query->with(['estado', 'prioridad'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        return view('tecnico.dashboard', compact('incidencies'));
+    
+        // Excluir incidencias con estado "Sin asignar"
+        $query->whereHas('Estado', function ($q) {
+            $q->where('estado', '!=', 'Sin asignar'); // Excluir "Sin asignar"
+        });
+    
+        // Aplicar filtro de estado
+        if ($filter !== 'Todas') {
+            $query->whereHas('Estado', function ($q) use ($filter) {
+                $q->where('estado', $filter);
+            });
+        }
+    
+        // Obtener resultados
+        $incidencies = $query->get();
+    
+        // Retornar vista con los resultados filtrados
+        return view('tecnico.incidencias-list', compact('incidencies'));
     }
-
     /**
      * Cambiar el estado de una incidencia a "En treball".
      */

@@ -20,51 +20,31 @@
 
             <!-- Filtros -->
             <div class="filtros">
-                <form action="{{ route('tecnico.incidencia.filter') }}" method="GET">
-                    <label for="filter">Filtrar per estado:</label>
+                <form id="filter-form">
+                    <label for="search">Buscar por título:</label>
+                    <input type="text" id="search" name="search" placeholder="Escribe el título">
+
+                    <label for="filter">Filtrar por estado:</label>
                     <select id="filter" name="filter">
-                        <option value="all">Todas</option>
-                        <option value="asignada">Asignada</option>
-                        <option value="en_trabajo">En trabajo</option>
-                        <option value="resuelta">Resuleta</option>
+                        <option value="Todas">Todas</option>
+                        <option value="Asignada">Asignada</option>
+                        <option value="En trabajo">En trabajo</option>
+                        <option value="Resuelta">Resuelta</option>
                     </select>
-                    <button type="submit">Aplicar Filtro</button>
                 </form>
             </div>
 
-            <!-- Llista d'incidències -->
-            
-            @forelse ($incidencies as $incidencia)
-                <div class="incidencia-card">
-                    <h3>{{ $incidencia->titulo }}</h3>
-                    <p>{{ $incidencia->descripcion }}</p>
-                    <div class="info">
-                        <span><strong>Estado:</strong> {{ $incidencia->Estado->estado ?? 'No disponible' }}</span>
-                        <span><strong>Prioridad:</strong> {{ $incidencia->Prioridad->prioridad ?? 'No disponible' }}</span>
-                        <span><strong>Fecha de creación:</strong> {{ $incidencia->created_at->format('d/m/Y H:i') }}</span>
-                    </div>
-
-                    <!-- Accions -->
-                    <div>
-                        <a href="{{ route('tecnico.incidencia.show', $incidencia->id) }}">Ver detalles</a>
-                        @if ($incidencia->Estado->estado === 'Asignada')
-                            <form action="{{ route('tecnico.incidencia.start', $incidencia->id) }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit">Comenzar</button>
-                            </form>
-                        @endif
-                        @if ($incidencia->Estado->estado === 'En trabajo')
-                            <form action="{{ route('tecnico.incidencia.resolve', $incidencia->id) }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit">Marcar como resuelta</button>
-                            </form>
-                        @endif
-                    </div>
-                </div>
-            @empty
-                <p>No hay incidencias disponibles.</p>
-            @endforelse
+            <!-- Contenedor para mostrar las incidencias filtradas -->
+            <div id="incidencies-container">
+                @include('tecnico.incidencias-list', ['incidencies' => $incidencies])
+            </div>
         </div>
     </div>
+
+    <!-- Incluir jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Incluir el archivo JavaScript externo -->
+    <script src="{{ asset('js/filtros.js') }}"></script>
 </body>
 </html>
