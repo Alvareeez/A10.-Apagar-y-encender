@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Seu;
 use App\Models\Incidencia;
 use App\Models\Categoria;
 use App\Models\Subcategoria;
+use App\Models\Prioridad;
+use App\Models\Estado;
 use App\Models\User;
 use App\Models\Chat;
 
@@ -18,8 +18,7 @@ class IncidenciaController extends Controller
     {
         $categorias = Categoria::all();
         $subcategorias = Subcategoria::all();
-        $seus = Seu::all();
-        return view('cliente.crearincidencias', compact('categorias', 'subcategorias', 'seus'));
+        return view('cliente.crearincidencias', compact('categorias', 'subcategorias'));
     }
 
     public function store(Request $request)
@@ -30,10 +29,7 @@ class IncidenciaController extends Controller
             'subcategoria' => 'required|integer',
             'comentario' => 'required|string',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'estado' => 'required|integer',
-            'prioridad' => 'required|integer',
             'categoria' => 'required|integer',
-            'seu' => 'required|integer', // Campo para almacenar la SEU del usuario autenticado
         ]);
 
         $incidencia = new Incidencia();
@@ -43,8 +39,8 @@ class IncidenciaController extends Controller
         $incidencia->comentario = $request->comentario;
         $incidencia->usuario_creador = Auth::id(); // Asociar el usuario autenticado como creador
         $incidencia->tecnico_asignado = null; // No asignar técnico por defecto
-        $incidencia->estado = $request->estado;
-        $incidencia->prioridad = $request->prioridad;
+        $incidencia->estado = 1; // Estado por defecto "Sin asignar"
+        $incidencia->prioridad = 4; // Prioridad por defecto "Sin prioridad"
         $incidencia->categoria = $request->categoria;
         $incidencia->seu = Auth::user()->seu; // Asociar la sede del usuario autenticado
 
@@ -60,8 +56,16 @@ class IncidenciaController extends Controller
 
     public function index()
     {
-        $incidencias = Incidencia::where('usuario_creador', Auth::id())->get();
-        return view('cliente.misincidencias', compact('incidencias'));
+        $categorias = Categoria::all();
+        $subcategorias = Subcategoria::all();
+        $tecnicos = User::where('role', 4)->where('seu', Auth::user()->seu)->get();
+        $estados = Estado::all();
+        $prioridades = Prioridad::all();
+        $incidencias = Incidencia::with(['Subcategoria', 'creador', 'tecnico', 'Estado', 'Prioridad', 'Categoria'])
+                                 ->where('usuario_creador', Auth::id())
+                                 ->get();
+
+        return view('cliente.misincidencias', compact('categorias', 'subcategorias', 'tecnicos', 'estados', 'prioridades', 'incidencias'));
     }
 
     public function chat($id)
@@ -90,4 +94,38 @@ class IncidenciaController extends Controller
         return redirect()->route('incidencias.chat', $id);
     }
 
+    public function filter(Request $request)
+    {
+        $query = Incidencia::query();
+
+        if ($request->filled('titulo')) {
+            $query->where('titulo', 'like', '%' . $request->titulo . '%');
+        }
+
+        if ($request->filled('categoria')) {
+            $query->where('categoria', $request->categoria);
+        }
+
+        if ($request->filled('subcategoria')) {
+            $query->where('subcategoria', $request->subcategoria);
+        }
+
+        if ($request->filled('tecnico')) {
+            $query->where('tecnico_asignado', $request->tecnico);
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        if ($request->filled('prioridad')) {
+            $query->where('prioridad', $request->prioridad);
+        }
+
+        $incidencias = $query->with(['Subcategoria', 'creador', 'tecnico', 'Estado', 'Prioridad', 'Categoria'])
+                             ->where('usuario_creador', Auth::id())
+                             ->get();
+
+        return view('cliente.incidencias_list', compact('incidencias'))->render();
+    }
 }

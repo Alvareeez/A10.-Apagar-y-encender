@@ -38,12 +38,12 @@ class Incidencia extends Model
      */
     public function tecnico()
     {
-        return $this->belongsTo(User::class, 'tecnico_asignado');
+        return $this->belongsTo(User::class, 'tecnico_asignado', 'id');
     }
 
     public function estado()
     {
-        return $this->belongsTo(Estado::class, 'estado');
+        return $this->belongsTo(Estado::class, 'estado', 'id');
     }
 
     /**
@@ -51,7 +51,7 @@ class Incidencia extends Model
      */
     public function prioridad()
     {
-        return $this->belongsTo(Prioridad::class, 'prioridad');
+        return $this->belongsTo(Prioridad::class, 'prioridad', 'id');
     }
 
     /**
@@ -59,7 +59,7 @@ class Incidencia extends Model
      */
     public function subcategoria()
     {
-        return $this->belongsTo(Subcategoria::class);
+        return $this->belongsTo(Subcategoria::class, 'subcategoria', 'id');
     }
     
     /**
@@ -67,12 +67,23 @@ class Incidencia extends Model
      */
     public function creador()
     {
-        return $this->belongsTo(User::class, 'usuario_creador');
+        return $this->belongsTo(User::class, 'usuario_creador', 'id');
     }
 
+    /**
+     * Relación: Una incidencia pertenece a una sede.
+     */
     public function seu()
     {
         return $this->belongsTo(Seu::class, 'seu');
+    }
+
+    /**
+     * Relación: Una incidencia pertenece a una categoría.
+     */
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria', 'id');
     }
 
     /**
@@ -82,4 +93,37 @@ class Incidencia extends Model
     {
         return $this->hasMany(Chat::class);
     }
+
+    public function getPrioridadNombreAttribute()
+    {
+        switch ($this->prioridad) {
+            case 1:
+                return 'Alta';
+            case 2:
+                return 'Media';
+            case 3:
+                return 'Baja';
+            default:
+                return 'Desconocida';
+        }
+    }
+
+    public function getEstadoNombreAttribute()
+    {
+        switch ($this->estado) {
+            case 1:
+                return 'Sin asignar';
+            case 2:
+                return 'Asignada';
+            case 3:
+                return 'En trabajo';
+            case 4:
+                return 'Resuelta';
+            case 5:
+                return 'Cerrada';
+            default:
+                return 'Desconocido';
+        }
+    }
 }
+

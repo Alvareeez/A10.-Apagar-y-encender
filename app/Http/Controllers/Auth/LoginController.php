@@ -33,7 +33,7 @@ class LoginController extends Controller
             $user = Auth::user();
             switch ($user->role) { // Asegúrate de que el campo sea 'role' en la tabla users
                 case 1:
-                    return redirect()->route('admin.dashboard');
+                    return redirect()->route('admin');
                 case 2:
                     return redirect()->route('cliente.dashboard');
                 case 3:

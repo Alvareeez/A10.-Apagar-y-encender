@@ -7,12 +7,23 @@ use App\Models\Incidencia;
 use App\Models\User;
 use App\Models\Rol;
 use App\Models\Seu;
+use App\Models\Estado;
 use Illuminate\Support\Facades\Auth; // Importar el facade Auth
+use Illuminate\Support\Facades\Storage;
 
 class GestorController extends Controller
 {
+    public function dashboard()
+    {
+        // Verificar si el usuario está autenticado
+        if (!Auth::check()) { // Usar el facade Auth
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para acceder a esta página.');
+        }
 
-    public function dashboard(Request $request)
+        return view('gestor.dashboard');
+    }
+
+    public function incidencias(Request $request)
     {
         // Verificar si el usuario está autenticado
         if (!Auth::check()) { // Usar el facade Auth
@@ -20,26 +31,10 @@ class GestorController extends Controller
         }
 
         // Obtener las incidencias filtradas
-        $incidencias = Incidencia::query();
-
-        // Filtrar por prioridad
-        if ($request->has('prioridad') && $request->prioridad != '') {
-            $incidencias->where('prioridad', $request->prioridad);
-        }
-
-        // Filtrar por estado
-        if ($request->has('estado') && $request->estado != '') {
-            $incidencias->where('estado', $request->estado);
-        }
-
-        // Filtrar por sede del usuario
-        $incidencias->where('seu', Auth::user()->seu);
-
-        // Ordenar por prioridad y fecha de entrada
-        $incidencias->orderBy('prioridad', 'desc')->orderBy('created_at', 'desc');
-
-        // Obtener las incidencias
-        $incidencias = $incidencias->get();
+        $incidencias = Incidencia::where('seu', Auth::user()->seu)
+            ->orderBy('prioridad', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         // Obtener el rol "Tecnico" de la tabla "roles"
         $roleTecnico = Rol::where('roles', 'tècnic manteniment')->first();
@@ -50,15 +45,29 @@ class GestorController extends Controller
 
         // Obtener los usuarios con el rol "Tecnico" y que pertenezcan a la misma sede que el gestor actual
         $tecnicos = User::where('role', $roleTecnico->id)
-                        ->where('seu', Auth::user()->seu) // Usar el facade Auth
-                        ->get();
+            ->where('seu', Auth::user()->seu) // Usar el facade Auth
+            ->get();
 
-        return view('gestor.dashboard', compact('incidencias', 'tecnicos'));
+        // Obtener los estados
+        $estados = Estado::all();
+
+        return view('gestor.incidencias', compact('incidencias', 'tecnicos', 'estados'));
     }
 
     public function tecnicos()
     {
-        $tecnicos = User::where('role', 'tecnico')->get();
+        // Obtener el rol "Tecnico" de la tabla "roles"
+        $roleTecnico = Rol::where('roles', 'tècnic manteniment')->first();
+
+        if (!$roleTecnico) {
+            return redirect()->route('gestor.dashboard')->with('error', 'El rol "Tecnico" no existe en la base de datos.');
+        }
+
+        // Obtener los usuarios con el rol "Tecnico" y que pertenezcan a la misma sede que el gestor actual
+        $tecnicos = User::where('role', $roleTecnico->id)
+            ->where('seu', Auth::user()->seu)
+            ->get();
+
         return view('gestor.tecnicos', compact('tecnicos'));
     }
 
@@ -84,15 +93,59 @@ class GestorController extends Controller
         // Validar la solicitud
         $request->validate([
             'tecnico_id' => 'required|exists:users,id',
+            'prioridad' => 'required|string|in:alta,media,baja',
         ]);
 
-        // Asignar el técnico a la incidencia
+        // Asignar el técnico y la prioridad a la incidencia
         $incidencia = Incidencia::findOrFail($id);
-        $incidencia->update([
-            'estado' => $request->estado_id,
-            'tecnico_asignado' => $request->tecnico_id,
+        $incidencia->tecnico_asignado = $request->tecnico_id;
+        $incidencia->prioridad = $this->convertirPrioridad($request->prioridad); // Aquí se convierte a entero
+        $incidencia->estado = 2; // Cambiar el estado a 'Asignada'
+        $incidencia->save();
+
+        return redirect()->route('gestor.incidencias')->with('success', 'Incidencia asignada correctamente.');
+    }
+
+    private function convertirPrioridad($prioridad)
+    {
+        switch ($prioridad) {
+            case 'alta':
+                return 1;
+            case 'media':
+                return 2;
+            case 'baja':
+                return 3;
+            default:
+                return 2; // Valor por defecto
+        }
+    }
+
+    public function perfil()
+    {
+        return view('gestor.perfil');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        return redirect()->route('gestor.dashboard')->with('success', 'Incidencia asignada correctamente.');
+        $user = Auth::user();
+
+        if ($request->hasFile('profile_photo')) {
+            // Eliminar la foto de perfil anterior si existe
+            if ($user->profile_photo) {
+                Storage::delete('public/' . $user->profile_photo);
+            }
+
+            // Almacenar la nueva foto de perfil
+            $path = $request->file('profile_photo')->store('profile_photos', 'public');
+            $user->profile_photo = $path;
+        }
+
+        $user->save();
+
+        return redirect()->route('gestor.perfil')->with('success', 'Foto de perfil actualizada correctamente.');
     }
 }

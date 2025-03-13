@@ -7,77 +7,27 @@
     <link href="{{ asset('css/gestor.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div class="sidebar">
-        <img src="https://via.placeholder.com/80" alt="Gestor">
-        <h2>Gestor</h2>
-        <a href="{{ route('gestor.dashboard') }}"><button>Ver incidencias</button></a>
-        <a href="{{ route('gestor.tecnicos') }}"><button>Técnicos</button></a>
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="sidebar hidden" id="sidebar">
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('/gestor/perfil') }}'"></div>
+        <div class="username">{{ Auth::user()->name }}</div>
+        <a href="{{ route('gestor.incidencias') }}"><button class="button">Ver incidencias</button></a>
+        <a href="{{ route('gestor.tecnicos') }}"><button class="button">Técnicos</button></a>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf
-            <button type="submit" class="logout">Cerrar sesión</button>
+            <button type="submit" class="button-logout">Cerrar sesión</button>
         </form>
     </div>
     <div class="content">
         <div class="container">
-            <h1>Panel del Gestor</h1>
-
-            <!-- Filtros -->
-            <div class="filtros">
-                <form action="{{ route('gestor.dashboard') }}" method="GET" class="flex gap-4">
-                    <div>
-                        <label for="prioridad">Filtrar por prioridad:</label>
-                        <select name="prioridad" id="prioridad">
-                            <option value="">Todas</option>
-                            <option value="alta">Alta</option>
-                            <option value="media">Media</option>
-                            <option value="baja">Baja</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="estado">Filtrar por estado:</label>
-                        <select name="estado" id="estado">
-                            <option>Sin asignar</option>
-                            <option>Asignada</option>
-                            <option>En trabajo</option>
-                            <option>Resuelta</option>
-                            <option>Cerrada</option>
-                        </select>
-                    </div>
-                    <div class="flex items-end">
-                        <button type="submit">Filtrar</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Lista de Incidencias -->
-            <div>
-                <h2>Incidencias</h2>
-                <div class="space-y-4">
-                    @foreach ($incidencias as $incidencia)
-                    <div class="incidencia-card">
-                        <h3>{{ $incidencia->titulo }}</h3>
-                        <p>{{ $incidencia->descripcion }}</p>
-                        <div class="info">
-                            <span>Prioridad: {{ $incidencia->prioridad }}</span>
-                            <span>Estado: {{ $incidencia->estado }}</span>
-                        </div>
-                        <div>
-                            <form action="{{ route('gestor.incidencia.asignar', $incidencia->id) }}" method="POST">
-                                @csrf
-                                <select name="tecnico_id">
-                                    <option value="">Seleccionar técnico</option>
-                                    @foreach ($tecnicos as $tecnico)
-                                    <option value="{{ $tecnico->id }}">{{ $tecnico->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="submit">Asignar a Técnico</button>
-                            </form>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
+            <h1>Bienvenido a tu página de gestor</h1>
+            <p>Utiliza el menú de la izquierda para navegar por las opciones disponibles.</p>
         </div>
     </div>
+    <script src="{{asset('js/hamburger.js')}}"></script>
 </body>
 </html>

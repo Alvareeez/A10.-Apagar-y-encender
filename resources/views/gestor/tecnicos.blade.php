@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Técnicos</title>
     <link href="{{ asset('css/gestor.css') }}" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <div class="sidebar">
-        <img src="https://via.placeholder.com/80" alt="Gestor">
-        <h2>Gestor</h2>
-        <a href="{{ route('gestor.dashboard') }}"><button>Ver incidencias</button></a>
-        <a href="{{ route('gestor.tecnicos') }}"><button>Técnicos</button></a>
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="sidebar hidden" id="sidebar">
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');"
+            onclick="window.location.href='{{ url('/gestor/perfil') }}'"></div>
+        <div class="username">{{ Auth::user()->name }}</div>
+        <a href="{{ route('gestor.dashboard') }}"><button class="button">Inicio</button></a>
+        <a href="{{ route('gestor.incidencias') }}"><button class="button">Incidencias</button></a>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf
-            <button type="submit" class="logout">Cerrar sesión</button>
+            <button type="submit" class="button-logout">Cerrar sesión</button>
         </form>
     </div>
     <div class="content">
@@ -22,13 +31,19 @@
             <h1>Técnicos</h1>
             <div class="space-y-4">
                 @foreach ($tecnicos as $tecnico)
-                <div class="tecnico-card">
-                    <h3>{{ $tecnico->name }}</h3>
-                    <a href="{{ route('gestor.incidencias_tecnico', $tecnico->id) }}"><button>Ver Incidencias</button></a>
-                </div>
+                    <div class="tecnico-card">
+                        <h3>{{ $tecnico->name }}</h3>
+                        <a href="{{ route('gestor.incidencias_tecnico', $tecnico->id) }}"><button class="btn btn-success">Ver Incidencias</button></a>
+                    </div>
                 @endforeach
             </div>
         </div>
     </div>
+    <script src="{{asset('js/hamburger.js')}}"></script>
+    <!-- Incluir Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
