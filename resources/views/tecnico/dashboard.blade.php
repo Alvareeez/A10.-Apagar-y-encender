@@ -11,8 +11,10 @@
         <img src="{{ asset('img/logo_empresa.png') }}" alt="Logo Empresa">
         <h2>Bienvenido, {{ auth()->user()->name }}</h2>
         <button onclick="location.href='{{ route('tecnico.dashboard') }}'">Inici</button>
-        <button onclick="location.href='{{ route('logout') }}'" class="logout">Tancar Sessió</button>
-    </div>
+        <form action="{{ route('logout') }}" method="POST" class="logout-form">
+            @csrf
+            <button type="submit" class="logout">Cerrar sesión</button>
+        </form>    </div>
 
     <div class="content">
         <div class="container">

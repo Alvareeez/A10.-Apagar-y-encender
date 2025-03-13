@@ -4,16 +4,22 @@ body {
     font-family: Arial, sans-serif;
 }
 
+
 /* Estilos para la barra lateral fija */
+
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
-    width: 250px; /* Ajusta el ancho según tus necesidades */
-    background-color: #ccc; /* Color de fondo de la barra lateral */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es demasiado largo */
-    z-index: 1000; /* Asegura que la barra lateral esté por encima del contenido principal */
+    width: 250px;
+    /* Ajusta el ancho según tus necesidades */
+    background-color: #ccc;
+    /* Color de fondo de la barra lateral */
+    overflow-y: auto;
+    /* Permite el desplazamiento vertical si el contenido es demasiado largo */
+    z-index: 1000;
+    /* Asegura que la barra lateral esté por encima del contenido principal */
     padding: 20px;
     box-sizing: border-box;
     transition: transform 0.3s ease;
@@ -25,14 +31,17 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    width: 250px; /* Ajusta el ancho según tus necesidades */
-    background-color: #ccc; /* Color de fondo de la barra lateral */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es demasiado largo */
-    z-index: 1000; /* Asegura que la barra lateral esté por encima del contenido principal */
+    width: 250px;
+    /* Ajusta el ancho según tus necesidades */
+    background-color: #ccc;
+    /* Color de fondo de la barra lateral */
+    overflow-y: auto;
+    /* Permite el desplazamiento vertical si el contenido es demasiado largo */
+    z-index: 1000;
+    /* Asegura que la barra lateral esté por encima del contenido principal */
     padding: 20px;
     box-sizing: border-box;
     transition: transform 0.3s ease;
-
 }
 
 .sidebar.visible {
@@ -41,10 +50,14 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    width: 250px; /* Ajusta el ancho según tus necesidades */
-    background-color: #ccc; /* Color de fondo de la barra lateral */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es demasiado largo */
-    z-index: 1000; /* Asegura que la barra lateral esté por encima del contenido principal */
+    width: 250px;
+    /* Ajusta el ancho según tus necesidades */
+    background-color: #ccc;
+    /* Color de fondo de la barra lateral */
+    overflow-y: auto;
+    /* Permite el desplazamiento vertical si el contenido es demasiado largo */
+    z-index: 1000;
+    /* Asegura que la barra lateral esté por encima del contenido principal */
     padding: 20px;
     box-sizing: border-box;
     transition: transform 0.3s ease;
@@ -93,11 +106,15 @@ body {
     color: white;
 }
 
+
 /* Estilos para el contenedor principal */
+
 .content {
-    margin-left: 250px; /* Debe coincidir con el ancho de la barra lateral */
+    margin-left: 250px;
+    /* Debe coincidir con el ancho de la barra lateral */
     padding: 20px;
-    overflow: auto; /* Permite el desplazamiento si el contenido es demasiado largo */
+    overflow: auto;
+    /* Permite el desplazamiento si el contenido es demasiado largo */
     flex-grow: 1;
 }
 
@@ -124,7 +141,8 @@ body {
     flex-direction: column;
     cursor: pointer;
     margin: 10px;
-    z-index: 1001; /* Ensure the hamburger is above the sidebar */
+    z-index: 1001;
+    /* Ensure the hamburger is above the sidebar */
 }
 
 .hamburger div {
@@ -159,13 +177,18 @@ body {
 }
 
 select.form-control {
-    width: auto; /* Ajusta el ancho automáticamente */
-    min-width: 200px; /* Establece un ancho mínimo */
+    width: auto;
+    /* Ajusta el ancho automáticamente */
+    min-width: 200px;
+    /* Establece un ancho mínimo */
     height: auto;
-    white-space: normal; /* Permite que el texto se ajuste automáticamente */
+    white-space: normal;
+    /* Permite que el texto se ajuste automáticamente */
 }
 
+
 /* Estilos para los estados */
+
 .badge-sin-asignar {
     background-color: grey;
     color: white;
@@ -191,7 +214,9 @@ select.form-control {
     color: white;
 }
 
+
 /* Estilos para las prioridades */
+
 .badge-prioridad-alta {
     background-color: red;
     color: white;
@@ -214,7 +239,6 @@ select.form-control {
     .hamburger {
         display: flex;
     }
-
     .sidebar {
         display: none;
         position: fixed;
@@ -227,29 +251,24 @@ select.form-control {
         transition: transform 0.3s ease;
         transform: translateX(-100%);
     }
-
     .sidebar.active {
         transform: translateX(0);
     }
-
     .content {
         margin-left: 0;
     }
-
     .tecnico-card {
         margin-bottom: 20px;
     }
-
     .form-group {
         margin-bottom: 15px;
     }
-
-    .button, .button-logout {
+    .button,
+    .button-logout {
         width: 100%;
         margin-bottom: 10px;
         text-decoration: none;
     }
-
     .sidebar {
         width: 100%;
         height: auto;
@@ -262,7 +281,8 @@ select.form-control {
     .sidebar .username {
         font-size: 1.2em;
     }
-    .sidebar .button, .sidebar .button-logout {
+    .sidebar .button,
+    .sidebar .button-logout {
         display: block;
         width: 100%;
         text-align: center;
