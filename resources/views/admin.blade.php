@@ -15,6 +15,7 @@
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -31,6 +32,27 @@
             </div>
             <div class="col-7">
                 <h1>Gestionar usuario</h1>
+                <div class="mb-3">
+                    <input type="text" id="search" class="form-control" placeholder="Buscar por nombre o email">
+                </div>
+                <div class="mb-3">
+                    <select id="seu" class="form-control">
+                        <option value="">Seleccionar Sede</option>
+                        @foreach ($seus as $seu)
+                            <option value="{{ $seu->id }}" {{ old('seu') == $seu->id ? 'selected' : '' }}>
+                                {{ $seu->seus }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <select id="role" class="form-control">
+                        <option value="">Seleccionar Rol</option>
+                        @foreach ($roles as $rol)
+                            <option value="{{ $rol->id }}">{{ $rol->roles }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <table class="table table-striped text-center">
                     <thead>
                         <tr>
@@ -41,17 +63,15 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {{-- @dd($usuarios); --}}
+                    <tbody id="usuarios-table">
                         @foreach ($usuarios as $usuario)
                             <tr>
                                 <td>{{ $usuario->name }}</td>
                                 <td>{{ $usuario->email }}</td>
                                 <td>{{ $usuario->Seu->seus }}</td>
-                                <td>{{ $usuario->Rol->roles }}</td>
+                                <td>{{ $usuario->rol->roles }}</td>
                                 <td>
                                     <div class="d-flex">
-
                                         <a href="{{ route('usuarios.edit', $usuario->id) }}"><i
                                                 class="fas fa-edit mx-3"></i></a>
                                         <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST"
@@ -71,6 +91,8 @@
             </div>
         </div>
     </div>
+
+    <script src="{{ asset('js/filtrosCrud.js') }}"></script>
 
 </body>
 
