@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incidencias</title>
-    <link href="{{ asset('css/gestor.css') }}" rel="stylesheet">
+    
     <!-- Incluir Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/gestor.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -17,10 +18,12 @@
         <div></div>
     </div>
     <div class="sidebar" id="sidebar">
-        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('gestor/perfil') }}'"></div>
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');"
+            onclick="window.location.href='{{ url('/gestor/perfil') }}'"></div>
         <div class="username">{{ Auth::user()->name }}</div>
-        <a href="{{ url('gestor/dashboard') }}" class="button">Inicio</a>
-        <a href="{{ url('gestor/tecnicos') }}" class="button">Técnicos</a>
+        <a href="{{ route('gestor.dashboard') }}" class="button">Inicio</a>
+        <a href="{{ route('gestor.incidencias') }}" class="button">Incidencias</a>
+        <a href="{{ route('gestor.tecnicos') }}" class="button">Técnicos</a>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf
             <button type="submit" class="button-logout">Cerrar sesión</button>
