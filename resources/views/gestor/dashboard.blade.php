@@ -14,7 +14,7 @@
         <div></div>
         <div></div>
     </div>
-    <div class="sidebar hidden" id="sidebar">
+    <div class="sidebar" id="sidebar">
         <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('/gestor/perfil') }}'"></div>
         <div class="username">{{ Auth::user()->name }}</div>
         <a href="{{ route('gestor.incidencias') }}" class="button">Ver incidencias</button></a>
