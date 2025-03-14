@@ -112,6 +112,10 @@ class UserController extends Controller
             $query->where('role', $request->role);
         }
 
+        if ($request->filled('sort') && $request->filled('direction')) {
+            $query->orderBy($request->sort, $request->direction);
+        }
+
         $usuarios = $query->with('rol', 'seu')->get();
 
         return response()->json($usuarios);

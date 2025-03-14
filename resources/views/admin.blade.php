@@ -16,6 +16,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -30,34 +31,41 @@
                 <a class="btn btn-primary w-100 h-50">Incidéncias</a>
                 <button class="btn btn-danger">Cerrar Sesión</button>
             </div>
-            <div class="col-7">
+            <div class="col-8">
                 <h1>Gestionar usuario</h1>
-                <div class="mb-3">
-                    <input type="text" id="search" class="form-control" placeholder="Buscar por nombre o email">
-                </div>
-                <div class="mb-3">
-                    <select id="seu" class="form-control">
-                        <option value="">Seleccionar Sede</option>
-                        @foreach ($seus as $seu)
-                            <option value="{{ $seu->id }}" {{ old('seu') == $seu->id ? 'selected' : '' }}>
-                                {{ $seu->seus }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <select id="role" class="form-control">
-                        <option value="">Seleccionar Rol</option>
-                        @foreach ($roles as $rol)
-                            <option value="{{ $rol->id }}">{{ $rol->roles }}</option>
-                        @endforeach
-                    </select>
+                <div class="d-flex mb-3">
+                    <div class="input-group me-2">
+                        <input type="text" id="search" class="form-control"
+                            placeholder="Buscar por nombre o email">
+                        <button class="btn btn-outline-secondary" id="clear-search">X</button>
+                    </div>
+                    <div class="input-group me-2">
+                        <select id="seu" class="form-control">
+                            <option value="">Seleccionar Sede</option>
+                            @foreach ($seus as $seu)
+                                <option value="{{ $seu->id }}" {{ old('seu') == $seu->id ? 'selected' : '' }}>
+                                    {{ $seu->seus }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <button class="btn btn-outline-secondary" id="clear-seu">X</button>
+                    </div>
+                    <div class="input-group me-2">
+                        <select id="role" class="form-control">
+                            <option value="">Seleccionar Rol</option>
+                            @foreach ($roles as $rol)
+                                <option value="{{ $rol->id }}">{{ $rol->roles }}</option>
+                            @endforeach
+                        </select>
+                        <button class="btn btn-outline-secondary" id="clear-role">X</button>
+                    </div>
+                    <button id="clear-all" class="btn btn-outline-danger">Borrar Todos</button>
                 </div>
                 <table class="table table-striped text-center">
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Email</th>
+                            <th>Email <button id="sort-email" class="btn btn-link p-0">Ordenar</button></th>
                             <th>Sede</th>
                             <th>Rol</th>
                             <th>Acciones</th>
@@ -93,7 +101,6 @@
     </div>
 
     <script src="{{ asset('js/filtrosCrud.js') }}"></script>
-
 </body>
 
 </html>
