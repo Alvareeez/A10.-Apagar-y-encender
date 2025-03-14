@@ -135,12 +135,6 @@
             </div>
         </form>
     </div>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('visible');
-            sidebar.classList.toggle('hidden');
-        }
-    </script>
+    <script src="{{asset('js/hamburger.js')}}"></script>
 </body>
 </html>
