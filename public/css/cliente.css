@@ -49,12 +49,14 @@ body {
 .content {
     flex-grow: 1;
     padding: 20px;
-    margin-left: 250px; /* Ensure content is not hidden behind the sidebar */
+    margin-left: 250px;
+    /* Ensure content is not hidden behind the sidebar */
 }
 
 .incidencia {
     border: 1px solid #ccc;
     padding: 10px;
+    margin-top: 30px;
     margin-bottom: 10px;
     border-radius: 5px;
     background-color: #f9f9f9;
@@ -71,12 +73,28 @@ body {
     margin-top: 10px;
 }
 
+.incidencia button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #87CEEB;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.incidencia button:hover {
+    background-color: #00BFFF;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;
     cursor: pointer;
     margin: 10px;
-    z-index: 1001; /* Ensure the hamburger is above the sidebar */
+    z-index: 1001;
+    /* Ensure the hamburger is above the sidebar */
 }
 
 .hamburger div {
@@ -118,7 +136,10 @@ body {
 .form-group button:hover {
     background-color: #00BFFF;
 }
+
+
 /* Estilos para los filtros */
+
 .filters {
     display: flex;
     flex-wrap: wrap;
@@ -148,14 +169,18 @@ body {
     color: #333;
 }
 
+
 /* Estilos para el contenedor de incidencias */
+
 #incidencias-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+
 /* Estilos para las incidencias */
+
 .incidencia {
     border: 1px solid #ccc;
     padding: 10px;
@@ -175,12 +200,15 @@ body {
     margin-top: 10px;
 }
 
+
 /* Estilos para el botón de cerrar sesión */
+
 .logout-form .logout {
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #FF6347; /* Color rojo */
+    background-color: #FF6347;
+    /* Color rojo */
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -189,28 +217,32 @@ body {
 }
 
 .logout-form .logout:hover {
-    background-color: #FF4500; /* Color rojo más oscuro */
+    background-color: #FF4500;
+    /* Color rojo más oscuro */
 }
 
+
 /* Estilo para el borde rojo */
+
 .error-border {
     border: 2px solid red;
 }
 
 
 /* Estilo para el mensaje de error */
+
 .error-message {
     color: red;
     font-size: 12px;
 }
 
+
 /* Deshabilitar el botón */
+
 button:disabled {
     background-color: #ddd;
     cursor: not-allowed;
 }
-
-
 
 @media (max-width: 768px) {
     .sidebar {
@@ -226,6 +258,7 @@ button:disabled {
         display: flex;
     }
     .content {
-        margin-left: 0; /* Ensure content is not hidden behind the sidebar */
+        margin-left: 0;
+        /* Ensure content is not hidden behind the sidebar */
     }
 }

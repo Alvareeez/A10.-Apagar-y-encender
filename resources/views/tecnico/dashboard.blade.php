@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Tècnic</title>
-    <link rel="stylesheet" href="{{ asset('css/gestor.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cliente.css') }}">
 </head>
 <body>
-    <div class="sidebar">
-        <img src="{{ asset('img/logo_empresa.png') }}" alt="Logo Empresa">
-        <h2>Bienvenido, {{ auth()->user()->name }}</h2>
-        <button onclick="location.href='{{ route('tecnico.dashboard') }}'">Inici</button>
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="sidebar hidden" id="sidebar">
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('perfil') }}'"></div>
+        <div class="username">{{ Auth::user()->name }}</div>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf
             <button type="submit" class="logout">Cerrar sesión</button>
-        </form>    </div>
+        </form>
+    </div>
 
     <div class="content">
         <div class="container">
