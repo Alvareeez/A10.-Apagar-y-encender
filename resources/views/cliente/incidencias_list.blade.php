@@ -1,4 +1,3 @@
-<!-- filepath: c:\wamp64\www\M12\A10.-Apagar-y-encender\resources\views\cliente\incidencias_list.blade.php -->
 @foreach ($incidencias as $incidencia)
     <div class="incidencia">
         <h3>{{ $incidencia->titulo }}</h3>
