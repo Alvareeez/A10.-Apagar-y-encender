@@ -1,5 +1,5 @@
 @forelse ($incidencies as $incidencia)
-    <div class="incidencia-card">
+    <div class="incidencia">
         <h3>{{ $incidencia->titulo }}</h3>
         <p>{{ $incidencia->descripcion }}</p>
         <div class="info">
