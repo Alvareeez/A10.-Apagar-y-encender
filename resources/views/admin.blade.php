@@ -27,7 +27,7 @@
         <div></div>
         <div></div>
     </div>
-    <div class="sidebar hidden" id="sidebar">
+    <div class="sidebar" id="sidebar">
         <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');"
             onclick="window.location.href='{{ url('/gestor/perfil') }}'"></div>
         <div class="username">{{ Auth::user()->name }}</div>
@@ -38,71 +38,74 @@
             <button type="submit" class="button-logout">Cerrar sesión</button>
         </form>
     </div>
-    <div class="container">
-        <h1>Gestionar usuario</h1>
-        <div class="d-flex mb-3">
-            <div class="input-group me-2">
-                <input type="text" id="search" class="form-control" placeholder="Buscar por nombre o email">
-                <button class="btn btn-outline-secondary" id="clear-search">X</button>
+    <div class="content">
+        <div class="container">
+            <h1>Gestionar usuario</h1>
+            <div class="d-flex mb-3">
+                <div class="input-group me-2">
+                    <input type="text" id="search" class="form-control" placeholder="Buscar por nombre o email">
+                    <button class="btn btn-outline-secondary" id="clear-search">X</button>
+                </div>
+                <div class="input-group me-2">
+                    <select id="seu" class="form-control">
+                        <option value="">Seleccionar Sede</option>
+                        @foreach ($seus as $seu)
+                            <option value="{{ $seu->id }}" {{ old('seu') == $seu->id ? 'selected' : '' }}>
+                                {{ $seu->seus }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <button class="btn btn-outline-secondary" id="clear-seu">X</button>
+                </div>
+                <div class="input-group me-2">
+                    <select id="role" class="form-control">
+                        <option value="">Seleccionar Rol</option>
+                        @foreach ($roles as $rol)
+                            <option value="{{ $rol->id }}">{{ $rol->roles }}</option>
+                        @endforeach
+                    </select>
+                    <button class="btn btn-outline-secondary" id="clear-role">X</button>
+                </div>
+                <button id="clear-all" class="btn btn-outline-danger">Borrar Todos</button>
             </div>
-            <div class="input-group me-2">
-                <select id="seu" class="form-control">
-                    <option value="">Seleccionar Sede</option>
-                    @foreach ($seus as $seu)
-                        <option value="{{ $seu->id }}" {{ old('seu') == $seu->id ? 'selected' : '' }}>
-                            {{ $seu->seus }}
-                        </option>
-                    @endforeach
-                </select>
-                <button class="btn btn-outline-secondary" id="clear-seu">X</button>
-            </div>
-            <div class="input-group me-2">
-                <select id="role" class="form-control">
-                    <option value="">Seleccionar Rol</option>
-                    @foreach ($roles as $rol)
-                        <option value="{{ $rol->id }}">{{ $rol->roles }}</option>
-                    @endforeach
-                </select>
-                <button class="btn btn-outline-secondary" id="clear-role">X</button>
-            </div>
-            <button id="clear-all" class="btn btn-outline-danger">Borrar Todos</button>
-        </div>
-        <table class="table table-striped table-hover text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Email <button id="sort-email" class="btn btn-link p-0 text-decoration-none">ABC</button></th>
-                    <th>Sede</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="usuarios-table">
-                @foreach ($usuarios as $usuario)
+            <table class="table table-striped table-hover text-center">
+                <thead class="table-dark">
                     <tr>
-                        <td>{{ $usuario->name }}</td>
-                        <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->Seu->seus }}</td>
-                        <td>{{ $usuario->rol->roles }}</td>
-                        <td>
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-link" data-bs-toggle="modal"
-                                    data-bs-target="#editUserModal-{{ $usuario->id }}">
-                                    <i class="fas fa-edit mx-3"></i>
-                                    <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST"
-                                        class="delete-form">
-                                        @csrf
-                                        @method('DELETE') <button type="button"
-                                            class="btn btn-danger btn-sm delete-button">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                            </div>
-                        </td>
+                        <th>Nombre</th>
+                        <th>Email <button id="sort-email" class="btn btn-link p-0 text-decoration-none">ABC</button>
+                        </th>
+                        <th>Sede</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="usuarios-table">
+                    @foreach ($usuarios as $usuario)
+                        <tr>
+                            <td>{{ $usuario->name }}</td>
+                            <td>{{ $usuario->email }}</td>
+                            <td>{{ $usuario->Seu->seus }}</td>
+                            <td>{{ $usuario->rol->roles }}</td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-link" data-bs-toggle="modal"
+                                        data-bs-target="#editUserModal-{{ $usuario->id }}">
+                                        <i class="fas fa-edit mx-3"></i>
+                                        <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST"
+                                            class="delete-form">
+                                            @csrf
+                                            @method('DELETE') <button type="button"
+                                                class="btn btn-danger btn-sm delete-button">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="{{ asset('js/filtrosCrud.js') }}"></script>
