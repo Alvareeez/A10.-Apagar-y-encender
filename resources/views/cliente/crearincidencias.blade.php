@@ -21,6 +21,7 @@
             <div class="profile-pic"></div>
         @endif
         <div class="username">{{ Auth::user()->name }}</div>
+        <a href="{{ url('cliente/dashboard') }}" class="button">Inicio</a>
         <a href="{{ url('crearincidencias') }}" class="button">Crear Incidencias</a>
         <a href="{{ url('misincidencias') }}" class="button">Mis Incidencias</a>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
@@ -67,7 +68,7 @@
             </div>
             <div class="form-group">
                 <label for="imagen">Imagen:</label>
-                <input type="file" id="imagen" name="imagen" accept="image/*" onblur="validateField(this)">
+                <input type="file" id="imagen" name="imagen" accept="image/*">
                 <div id="imagenError" class="error-message"></div>
             </div>
             <div class="form-group">

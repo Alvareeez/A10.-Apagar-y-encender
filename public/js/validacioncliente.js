@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('incidenciaForm');
-    const inputs = form.querySelectorAll('input, select, textarea');
+    const inputs = form.querySelectorAll('input:not([type="file"]), select, textarea');
 
     inputs.forEach(input => {
         input.addEventListener('blur', function() {
@@ -42,40 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 input.parentNode.appendChild(error);
             }
             valid = false;
-        } else if (input.type === 'file') {
-            const file = input.files[0];
-            if (file && file.size > 2 * 1024 * 1024) {
-                input.style.borderColor = 'red';
-                if (errorMessage && errorMessage.classList.contains('error-message')) {
-                    errorMessage.textContent = 'El archivo es demasiado grande. El tamaño máximo permitido es 2MB.';
-                    errorMessage.style.color = 'red';
-                } else {
-                    const error = document.createElement('span');
-                    error.textContent = 'El archivo es demasiado grande. El tamaño máximo permitido es 2MB.';
-                    error.style.color = 'red';
-                    error.classList.add('error-message');
-                    input.parentNode.appendChild(error);
-                }
-                valid = false;
-            } else if (file && !['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
-                input.style.borderColor = 'red';
-                if (errorMessage && errorMessage.classList.contains('error-message')) {
-                    errorMessage.textContent = 'Solo se permiten imágenes en formato JPG, PNG o GIF.';
-                    errorMessage.style.color = 'red';
-                } else {
-                    const error = document.createElement('span');
-                    error.textContent = 'Solo se permiten imágenes en formato JPG, PNG o GIF.';
-                    error.style.color = 'red';
-                    error.classList.add('error-message');
-                    input.parentNode.appendChild(error);
-                }
-                valid = false;
-            } else {
-                input.style.borderColor = '';
-                if (errorMessage && errorMessage.classList.contains('error-message')) {
-                    errorMessage.textContent = '';
-                }
-            }
         } else {
             input.style.borderColor = '';
             if (errorMessage && errorMessage.classList.contains('error-message')) {

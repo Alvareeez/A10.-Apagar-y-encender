@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="chat-container">
+        <a href="{{ url('misincidencias') }}" class="back-button">Volver a Mis Incidencias</a>
         @foreach($chats as $chat)
             <div class="message {{ $chat->user_id == Auth::id() ? 'user' : 'tecnico' }}">
                 {{ $chat->message }}
