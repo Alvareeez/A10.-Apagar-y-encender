@@ -47,3 +47,20 @@ body {
 .input-container button:hover {
     background-color: #00BFFF;
 }
+
+/* Estilos para el botón de volver atrás */
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background-color: #87CEEB;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #00BFFF;
+}

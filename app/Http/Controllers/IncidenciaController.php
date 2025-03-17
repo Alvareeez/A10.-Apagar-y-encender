@@ -28,7 +28,6 @@ class IncidenciaController extends Controller
             'descripcion' => 'required|string|max:255',
             'subcategoria' => 'required|integer',
             'comentario' => 'required|string',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'categoria' => 'required|integer',
         ]);
 

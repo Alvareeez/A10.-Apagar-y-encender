@@ -21,6 +21,7 @@
             <div class="profile-pic"></div>
         @endif
         <div class="username">{{ Auth::user()->name }}</div>
+        <a href="{{ url('cliente/dashboard') }}" class="button">Inicio</a>
         <a href="{{ url('crearincidencias') }}" class="button">Crear Incidencias</a>
         <a href="{{ url('misincidencias') }}" class="button">Mis Incidencias</a>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
