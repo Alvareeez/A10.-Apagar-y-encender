@@ -191,6 +191,27 @@ body {
 .logout-form .logout:hover {
     background-color: #FF4500; /* Color rojo más oscuro */
 }
+
+/* Estilo para el borde rojo */
+.error-border {
+    border: 2px solid red;
+}
+
+
+/* Estilo para el mensaje de error */
+.error-message {
+    color: red;
+    font-size: 12px;
+}
+
+/* Deshabilitar el botón */
+button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+
+
 @media (max-width: 768px) {
     .sidebar {
         position: absolute;

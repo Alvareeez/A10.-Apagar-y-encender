@@ -1,0 +1,66 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.chat-container {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.message.user {
+    background-color: #87CEEB;
+    color: #fff;
+    align-self: flex-end;
+}
+.message.tecnico {
+    background-color: #ccc;
+    color: #000;
+    align-self: flex-start;
+}
+.input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+.input-container input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.input-container button {
+    padding: 10px;
+    background-color: #87CEEB;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.input-container button:hover {
+    background-color: #00BFFF;
+}
+
+/* Estilos para el botón de volver atrás */
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background-color: #87CEEB;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #00BFFF;
+}
