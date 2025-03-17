@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    let sortDirection = 'asc';
+
     function fetchUsers() {
         $.ajax({
             url: "/usuarios/filter",
@@ -6,7 +8,9 @@ $(document).ready(function () {
             data: {
                 search: $('#search').val(),
                 seu: $('#seu').val(),
-                role: $('#role').val()
+                role: $('#role').val(),
+                sort: 'email',
+                direction: sortDirection
             },
             success: function (response) {
                 $('#usuarios-table').empty();
@@ -39,4 +43,31 @@ $(document).ready(function () {
     $('#search').on('keyup', fetchUsers);
     $('#seu').on('change', fetchUsers);
     $('#role').on('change', fetchUsers);
+
+    $('#sort-email').on('click', function () {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        fetchUsers();
+    });
+
+    $('#clear-search').on('click', function () {
+        $('#search').val('');
+        fetchUsers();
+    });
+
+    $('#clear-seu').on('click', function () {
+        $('#seu').val('');
+        fetchUsers();
+    });
+
+    $('#clear-role').on('click', function () {
+        $('#role').val('');
+        fetchUsers();
+    });
+
+    $('#clear-all').on('click', function () {
+        $('#search').val('');
+        $('#seu').val('');
+        $('#role').val('');
+        fetchUsers();
+    });
 });

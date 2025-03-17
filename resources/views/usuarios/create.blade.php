@@ -17,45 +17,57 @@
 </head>
 
 <body>
-    <div class="container-fuera">
-        <div class="container-dentro">
-            <form action="{{ route('usuarios.store') }}" method="POST">
-                @csrf
-                <label for="name">Nombre de usuario</label>
-                <input type="text" id="name" name="name" class="form-control">
-                <label for="seu">Sede</label>
-                <select id="seu" name="seu" class="form-control">
-                    <option value="" selected disabled>Seleccionar una seu</option>
-                    @foreach ($seus as $seu)
-                        <option value="{{ $seu->id }}" {{ old('seu') == $seu->id ? 'selected' : '' }}>
-                            {{ $seu->seus }}
-                        </option>
-                    @endforeach
-                </select>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" class="form-control">
+    <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createUserModalLabel">Crear Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('usuarios.store') }}" method="POST">
+                        @csrf
+                        <label for="name">Nombre de usuario</label>
+                        <input type="text" id="name" name="name" class="form-control">
+                        <span id="error_name" class="error-message"></span>
+                        <label for="seu">Sede</label>
+                        <select id="seu" name="seu" class="form-control w-100">
+                            <option value="" selected disabled>Seleccionar una seu</option>
+                            @foreach ($seus as $seu)
+                                <option value="{{ $seu->id }}" {{ old('seu') == $seu->id ? 'selected' : '' }}>
+                                    {{ $seu->seus }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control">
 
-                <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" class="form-control">
-                <span id="error_password" class="error-message"></span>
+                        <label for="password">Contraseña:</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                        <span id="error_password" class="error-message"></span>
 
-                <label for="password_confirmation">Confirmar Contraseña:</label>
-                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control">
-                <span id="error_password_confirmation" class="error-message"></span>
+                        <label for="password_confirmation">Confirmar Contraseña:</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation"
+                            class="form-control">
+                        <span id="error_password_confirmation" class="error-message"></span>
 
-                <label for="role">Rol:</label><br>
-                <select id="role" name="role" class="form-control">
-                    <option value="" selected disabled>Seleccionar un rol</option>
-                    @foreach ($roles as $rol)
-                        <option value="{{ $rol->id }}" {{ old('role') == $rol->id ? 'selected' : '' }}>
-                            {{ $rol->roles }}
-                        </option>
-                    @endforeach
-                </select><br><br>
-                <span id="error_rol" class="error-message"></span>
-
-                <button type="submit">Añadir</button>
-            </form>
+                        <label for="role">Rol:</label><br>
+                        <select id="role" name="role" class="form-control w-100">
+                            <option value="" selected disabled>Seleccionar un rol</option>
+                            @foreach ($roles as $rol)
+                                <option value="{{ $rol->id }}" {{ old('role') == $rol->id ? 'selected' : '' }}>
+                                    {{ $rol->roles }}
+                                </option>
+                            @endforeach
+                        </select><br>
+                        <span id="error_rol" class="error-message"></span>
+                        <div class="d-flex flex-column justify-content-center">
+                            <button type="submit" class="btn btn-primary">Añadir Nuevo Usuario</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     {{-- <script src="{{ asset('js/validaCreate.js') }}"></script> --}}

@@ -16,84 +16,121 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="{{ asset('css/gestor.css') }}" rel="stylesheet">
 </head>
 
 <body>
-
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="sidebar hidden" id="sidebar">
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');"
+            onclick="window.location.href='{{ url('/gestor/perfil') }}'"></div>
+        <div class="username">{{ Auth::user()->name }}</div>
+        <button class="button" data-bs-toggle="modal" data-bs-target="#createUserModal">Crear Usuarios</button>
+        {{-- <a href="{{ route('gestor.tecnicos') }}" class="button">Incidéncias</button></a> --}}
+        <form action="{{ route('logout') }}" method="POST" class="logout-form">
+            @csrf
+            <button type="submit" class="button-logout">Cerrar sesión</button>
+        </form>
+    </div>
     <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <img src="" alt="Foto admin">
-                <h3 class="my-3">Administrador</h3>
-                <a href="{{ route('usuarios.create') }}" class="btn btn-primary w-100 h-50">Crear Usuarios</a>
-                <a class="btn btn-primary w-100 h-50">Ver Usuarios</a>
-                <a class="btn btn-primary w-100 h-50">Incidéncias</a>
-                <button class="btn btn-danger">Cerrar Sesión</button>
+        <h1>Gestionar usuario</h1>
+        <div class="d-flex mb-3">
+            <div class="input-group me-2">
+                <input type="text" id="search" class="form-control" placeholder="Buscar por nombre o email">
+                <button class="btn btn-outline-secondary" id="clear-search">X</button>
             </div>
-            <div class="col-7">
-                <h1>Gestionar usuario</h1>
-                <div class="mb-3">
-                    <input type="text" id="search" class="form-control" placeholder="Buscar por nombre o email">
-                </div>
-                <div class="mb-3">
-                    <select id="seu" class="form-control">
-                        <option value="">Seleccionar Sede</option>
-                        @foreach ($seus as $seu)
-                            <option value="{{ $seu->id }}" {{ old('seu') == $seu->id ? 'selected' : '' }}>
-                                {{ $seu->seus }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <select id="role" class="form-control">
-                        <option value="">Seleccionar Rol</option>
-                        @foreach ($roles as $rol)
-                            <option value="{{ $rol->id }}">{{ $rol->roles }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <table class="table table-striped text-center">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Sede</th>
-                            <th>Rol</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usuarios-table">
-                        @foreach ($usuarios as $usuario)
-                            <tr>
-                                <td>{{ $usuario->name }}</td>
-                                <td>{{ $usuario->email }}</td>
-                                <td>{{ $usuario->Seu->seus }}</td>
-                                <td>{{ $usuario->rol->roles }}</td>
-                                <td>
-                                    <div class="d-flex">
-                                        <a href="{{ route('usuarios.edit', $usuario->id) }}"><i
-                                                class="fas fa-edit mx-3"></i></a>
-                                        <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST"
-                                            onsubmit="return confirm('¿Seguro que quieres eliminar este usuario?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="input-group me-2">
+                <select id="seu" class="form-control">
+                    <option value="">Seleccionar Sede</option>
+                    @foreach ($seus as $seu)
+                        <option value="{{ $seu->id }}" {{ old('seu') == $seu->id ? 'selected' : '' }}>
+                            {{ $seu->seus }}
+                        </option>
+                    @endforeach
+                </select>
+                <button class="btn btn-outline-secondary" id="clear-seu">X</button>
             </div>
+            <div class="input-group me-2">
+                <select id="role" class="form-control">
+                    <option value="">Seleccionar Rol</option>
+                    @foreach ($roles as $rol)
+                        <option value="{{ $rol->id }}">{{ $rol->roles }}</option>
+                    @endforeach
+                </select>
+                <button class="btn btn-outline-secondary" id="clear-role">X</button>
+            </div>
+            <button id="clear-all" class="btn btn-outline-danger">Borrar Todos</button>
         </div>
+        <table class="table table-striped table-hover text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email <button id="sort-email" class="btn btn-link p-0 text-decoration-none">ABC</button></th>
+                    <th>Sede</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="usuarios-table">
+                @foreach ($usuarios as $usuario)
+                    <tr>
+                        <td>{{ $usuario->name }}</td>
+                        <td>{{ $usuario->email }}</td>
+                        <td>{{ $usuario->Seu->seus }}</td>
+                        <td>{{ $usuario->rol->roles }}</td>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-link" data-bs-toggle="modal"
+                                    data-bs-target="#editUserModal-{{ $usuario->id }}">
+                                    <i class="fas fa-edit mx-3"></i>
+                                    <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST"
+                                        class="delete-form">
+                                        @csrf
+                                        @method('DELETE') <button type="button"
+                                            class="btn btn-danger btn-sm delete-button">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 
     <script src="{{ asset('js/filtrosCrud.js') }}"></script>
-
+    <script src="{{ asset('js/hamburger.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.delete-button').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡No podrás revertir esto!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminarlo!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+    @include('usuarios.create')
+    @include('usuarios.edit')
 </body>
 
 </html>

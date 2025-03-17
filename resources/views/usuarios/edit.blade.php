@@ -17,44 +17,70 @@
 </head>
 
 <body>
-    <div class="container-fuera">
-        <div class="container-dentro">
-            <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
-                @csrf
-                @method('PUT')
+    @foreach ($usuarios as $usuario)
+        <div class="modal fade" id="editUserModal-{{ $usuario->id }}" tabindex="-1"
+            aria-labelledby="editUserModalLabel-{{ $usuario->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserModalLabel-{{ $usuario->id }}">Editar Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
 
-                <label for="name">Nombre de usuario</label>
-                <input type="text" id="name" name="name" class="form-control"
-                    value="{{ old('name', $usuario->name) }}">
+                            <!-- Nombre -->
+                            <label for="name-{{ $usuario->id }}">Nombre de usuario</label>
+                            <input type="text" id="name-{{ $usuario->id }}" name="name" class="form-control"
+                                value="{{ old('name', $usuario->name) }}">
+                            <div class="error-message text-danger mt-1"></div>
 
-                <label for="seu">Sede</label>
-                <select id="seu" name="seu" class="form-control">
-                    @foreach ($seus as $seu)
-                        <option value="{{ $seu->id }}"
-                            {{ old('seu', $usuario->seu) == $seu->id ? 'selected' : '' }}>
-                            {{ $seu->seus }}
-                        </option>
-                    @endforeach
-                </select>
+                            <!-- Sede -->
+                            <label for="seu-{{ $usuario->id }}">Sede</label>
+                            <select id="seu-{{ $usuario->id }}" name="seu" class="form-control w-100">
+                                <option value="">Seleccione una sede</option>
+                                @foreach ($seus as $seu)
+                                    <option value="{{ $seu->id }}"
+                                        {{ old('seu', $usuario->seu) == $seu->id ? 'selected' : '' }}>
+                                        {{ $seu->seus }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="error-message text-danger mt-1"></div>
 
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" class="form-control"
-                    value="{{ old('email', $usuario->email) }}">
+                            <!-- Email -->
+                            <label for="email-{{ $usuario->id }}">Email</label>
+                            <input type="email" id="email-{{ $usuario->id }}" name="email" class="form-control"
+                                value="{{ old('email', $usuario->email) }}">
+                            <div class="error-message text-danger mt-1"></div>
 
-                <label for="role">Rol</label>
-                <select id="role" name="role" class="form-control">
-                    @foreach ($roles as $rol)
-                        <option value="{{ $rol->id }}"
-                            {{ old('role', $usuario->role) == $rol->id ? 'selected' : '' }}>
-                            {{ $rol->roles }}
-                        </option>
-                    @endforeach
-                </select>
+                            <!-- Rol -->
+                            <label for="role-{{ $usuario->id }}">Rol</label>
+                            <select id="role-{{ $usuario->id }}" name="role" class="form-control w-100">
+                                <option value="">Seleccione un rol</option>
+                                @foreach ($roles as $rol)
+                                    <option value="{{ $rol->id }}"
+                                        {{ old('role', $usuario->role) == $rol->id ? 'selected' : '' }}>
+                                        {{ $rol->roles }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="error-message text-danger mt-1"></div>
 
-                <button type="submit" class="btn btn-primary mt-3">Actualizar Usuario</button>
-            </form>
+                            <div class="d-flex flex-column justify-content-center">
+                                <button type="submit" class="btn btn-primary mt-3">Actualizar Usuario</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    @endforeach
+
+    <!-- Importar el archivo de validaciones -->
+    <script src="{{ asset('js/validacionesCrud.js') }}"></script>
 </body>
 
 </html>
