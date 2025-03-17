@@ -6,11 +6,48 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* Estilos para la barra lateral fija */
 .sidebar {
-    background-color: #ccc;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px; /* Ajusta el ancho según tus necesidades */
+    background-color: #ccc; /* Color de fondo de la barra lateral */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es demasiado largo */
+    z-index: 1000; /* Asegura que la barra lateral esté por encima del contenido principal */
     padding: 20px;
-    width: 250px;
-    height: 100vh;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.hidden {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px; /* Ajusta el ancho según tus necesidades */
+    background-color: #ccc; /* Color de fondo de la barra lateral */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es demasiado largo */
+    z-index: 1000; /* Asegura que la barra lateral esté por encima del contenido principal */
+    padding: 20px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+
+}
+
+.sidebar.visible {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px; /* Ajusta el ancho según tus necesidades */
+    background-color: #ccc; /* Color de fondo de la barra lateral */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es demasiado largo */
+    z-index: 1000; /* Asegura que la barra lateral esté por encima del contenido principal */
+    padding: 20px;
     box-sizing: border-box;
     transition: transform 0.3s ease;
 }
@@ -54,9 +91,16 @@ body {
     border-radius: 5px;
 }
 
+.button:hover {
+    color: white;
+}
+
+/* Estilos para el contenedor principal */
 .content {
-    flex-grow: 1;
+    margin-left: 250px; /* Debe coincidir con el ancho de la barra lateral */
     padding: 20px;
+    overflow: auto; /* Permite el desplazamiento si el contenido es demasiado largo */
+    flex-grow: 1;
 }
 
 .form-group {
@@ -75,21 +119,6 @@ body {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-}
-
-.form-group button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #87CEEB;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.form-group button:hover {
-    background-color: #00BFFF;
 }
 
 .hamburger {
@@ -228,16 +257,75 @@ button:hover {
 }
 
 @media (max-width: 768px) {
-    .sidebar {
-        position: absolute;
-        z-index: 1000;
-        height: 100%;
-        transform: translateX(-100%);
-    }
     .sidebar.visible {
         transform: translateX(0);
     }
     .hamburger {
         display: flex;
+    }
+
+    .sidebar {
+        display: none;
+        position: fixed;
+        width: 250px;
+        height: 100%;
+        background-color: #333;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        transition: transform 0.3s ease;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    .tecnico-card {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .button, .button-logout {
+        width: 100%;
+        margin-bottom: 10px;
+        text-decoration: none;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .sidebar .profile-pic {
+        width: 50px;
+        height: 50px;
+    }
+    .sidebar .username {
+        font-size: 1.2em;
+    }
+    .sidebar .button, .sidebar .button-logout {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .content {
+        padding: 10px;
+    }
+    .hamburger {
+        display: block;
+    }
+}
+
+@media (min-width: 769px) {
+    .hamburger {
+        display: none;
     }
 }

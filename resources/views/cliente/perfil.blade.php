@@ -1,10 +1,11 @@
-<!-- filepath: c:\wamp64\www\M12\A10.-Apagar-y-encender\resources\views\cliente\perfil.blade.php -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil del Cliente</title>
+    <link href="{{ asset('css/cliente.css') }}" rel="stylesheet">
+
     <style>
         body {
             display: flex;
@@ -112,6 +113,10 @@
         <div class="username">{{ Auth::user()->name }}</div>
         <a href="{{ url('crearincidencias') }}" class="button">Crear Incidencias</a>
         <a href="{{ url('misincidencias') }}" class="button">Mis Incidencias</a>
+        <form action="{{ route('logout') }}" method="POST" class="logout-form">
+            @csrf
+            <button type="submit" class="logout">Cerrar sesión</button>
+        </form>
     </div>
     <div class="content">
         <h1>Perfil del Cliente</h1>

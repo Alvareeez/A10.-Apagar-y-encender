@@ -1,4 +1,3 @@
-<!-- filepath: c:\wamp64\www\M12\A10.-Apagar-y-encender\resources\views\cliente\misincidencias.blade.php -->
 <!DOCTYPE html>
 <html lang="es">
 
