@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Seu extends Model
 {
+    
     protected $table = 'seus';
+    protected $fillable = ['seus']; 
     public $timestamps = false;
 
     public function users()

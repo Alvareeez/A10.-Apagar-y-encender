@@ -71,25 +71,35 @@ class IncidenciaController extends Controller
     {
         $incidencia = Incidencia::findOrFail($id);
         $tecnico = User::find($incidencia->tecnico_asignado);
+        $usuario = User::find($incidencia->usuario_creador);
         $chats = Chat::where('incidencia_id', $id)->get();
-        return view('cliente.chat', compact('incidencia', 'tecnico', 'chats'));
+        return view('cliente.chat', compact('incidencia', 'tecnico', 'usuario', 'chats'));
     }
 
     public function sendMessage(Request $request, $id)
     {
+        // Validar el mensaje
         $request->validate([
             'message' => 'required|string',
         ]);
-
+    
+        // Buscar la incidencia correspondiente
         $incidencia = Incidencia::findOrFail($id);
-
+    
+        // Verificar que el usuario autenticado sea el creador o el técnico asignado
+        $authId = Auth::id();
+        if ($authId !== $incidencia->usuario_creador && $authId !== $incidencia->tecnico_asignado) {
+            return redirect()->back()->withErrors(['error' => 'No estás autorizado para enviar mensajes en esta incidencia.']);
+        }
+    
+        // Crear el mensaje
         $chat = new Chat();
         $chat->incidencia_id = $id;
-        $chat->user_id = Auth::id();
-        $chat->tecnico_id = $incidencia->tecnico_asignado;
+        $chat->user_id = $authId; // El usuario autenticado es quien envía el mensaje
         $chat->message = $request->message;
         $chat->save();
-
+    
+        // Redirigir al chat
         return redirect()->route('incidencias.chat', $id);
     }
 

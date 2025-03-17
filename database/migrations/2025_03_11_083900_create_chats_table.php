@@ -13,11 +13,10 @@ class CreateChatsTable extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('incidencia_id')->constrained('incidencia')->onDelete('cascade');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('tecnico_id')->references('id')->on('users')->onDelete('cascade');
-            $table->text('message');
-            $table->timestamps();
+            $table->foreignId('incidencia_id')->constrained('incidencias')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Quién envió el mensaje
+            $table->text('message'); // El contenido del mensaje
+            $table->timestamps(); // Fecha de creación y actualización
         });
     }
 

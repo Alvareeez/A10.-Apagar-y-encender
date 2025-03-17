@@ -16,6 +16,8 @@
     <div class="sidebar hidden" id="sidebar">
         <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('perfil') }}'"></div>
         <div class="username">{{ Auth::user()->name }}</div>
+        <a href="{{ route('tecnico.dashboard') }}" class="button">Dashboard</a>
+
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf
             <button type="submit" class="logout">Cerrar sesión</button>
@@ -33,9 +35,6 @@
             <p><strong>Fecha de creación:</strong> {{ $incidencia->created_at->format('d/m/Y H:i') }}</p>
             <p><strong>Fecha de resolución:</strong> {{ $incidencia->updated_at->format('d/m/Y H:i') }}</p>
         </div>
-    
-        <a href="{{ route('tecnico.dashboard') }}" class="text-blue-600 hover:text-blue-800 mt-4 inline-block">Tornar al Dashboard</a>
-    </div>
-    
+        </div>    
 </body>
 </html>

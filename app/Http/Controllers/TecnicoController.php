@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Incidencia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TecnicoController extends Controller
 {
@@ -58,14 +59,19 @@ class TecnicoController extends Controller
      */
     public function startWork($id)
     {
-        $incidencia = Incidencia::findOrFail($id);
+        // Buscar el ID del estado "En trabajo"
+    $estadoEnTrabajo = \App\Models\Estado::where('estado', 'En trabajo')->first();
 
-        if ($incidencia->tecnico_asignado !== Auth::id()) {
-            return back()->with('error', 'No tienes permiso para modificar esta incidencia.');
-        }
+    if (!$estadoEnTrabajo) {
+        return redirect()->back()->with('error', 'El estado "En trabajo" no existe.');
+    }
 
-        $incidencia->update(['estado' => 'En trabajo']);
-        return redirect()->route('tecnico.dashboard')->with('success', 'Incidència marcada com "En treball".');
+    // Actualizar la incidencia
+    $incidencia = \App\Models\Incidencia::findOrFail($id);
+    $incidencia->estado = $estadoEnTrabajo->id; // Guardar el ID del estado
+    $incidencia->save();
+    return redirect()->route('tecnico.dashboard')->with('success', 'Incidencia marcada como resuelta.');
+
     }
 
     /**
@@ -73,16 +79,22 @@ class TecnicoController extends Controller
      */
     public function resolve($id)
     {
-        $incidencia = Incidencia::findOrFail($id);
-
-        if ($incidencia->tecnico_asignado !== Auth::id()) {
-            return back()->with('error', 'No tienes permiso para modificar esta incidencia.');
+        // Buscar el ID del estado "Resuelta"
+        $estadoResuelta = \App\Models\Estado::where('estado', 'Resuelta')->first();
+    
+        if (!$estadoResuelta) {
+            return redirect()->back()->with('error', 'El estado "Resuelta" no existe.');
         }
+    
+        // Actualizar la incidencia
+        $incidencia = \App\Models\Incidencia::findOrFail($id);
+        $incidencia->estado = $estadoResuelta->id; // Guardar el ID del estado
+        $incidencia->save();
 
-        $incidencia->update(['estado' => 'Resuelta']);
-        return redirect()->route('tecnico.dashboard')->with('success', 'Incidencia marcada como "Resuelta".');
+        
+    
+        return redirect()->route('tecnico.dashboard')->with('success', 'Incidencia marcada como resuelta.');
     }
-
     /**
      * Mostrar detalles de una incidencia.
      */
@@ -96,5 +108,33 @@ class TecnicoController extends Controller
         }
 
         return view('tecnico.show', compact('incidencia'));
+    }
+    public function perfil()
+    {
+        return view('tecnico.perfil');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        if ($request->hasFile('profile_photo')) {
+            // Eliminar la foto de perfil anterior si existe
+            if ($user->profile_photo) {
+                Storage::delete('public/' . $user->profile_photo);
+            }
+
+            // Almacenar la nueva foto de perfil
+            $path = $request->file('profile_photo')->store('profile_photos', 'public');
+            $user->profile_photo = $path;
+        }
+
+        $user->save();
+
+        return redirect()->route('tecnico.perfil')->with('success', 'Foto de perfil actualizada correctamente.');
     }
 }

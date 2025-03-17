@@ -10,9 +10,9 @@ class SeuSeeder extends Seeder
     public function run()
     {
         $seus = [
-            ['seu' => 'Barcelona'],
-            ['seu' => 'Berlín'],
-            ['seu' => 'Montreal'],
+            ['seus' => 'Barcelona'],
+            ['seus' => 'Berlín'],
+            ['seus' => 'Montreal'],
         ];
 
         foreach ($seus as $seu) {

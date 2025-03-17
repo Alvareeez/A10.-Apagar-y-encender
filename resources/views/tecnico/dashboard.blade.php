@@ -13,7 +13,7 @@
         <div></div>
     </div>
     <div class="sidebar hidden" id="sidebar">
-        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('perfil') }}'"></div>
+        <div class="profile-pic" style="background-image: url('{{ Storage::url(Auth::user()->profile_photo) }}');" onclick="window.location.href='{{ url('tecnico/perfil') }}'"></div>
         <div class="username">{{ Auth::user()->name }}</div>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf
