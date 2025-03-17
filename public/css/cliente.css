@@ -244,6 +244,18 @@ button:disabled {
     cursor: not-allowed;
 }
 
+.acciones a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px;
+    background-color: #87CEEB;
+    border-radius: 5px;
+}
+
+.acciones a:hover {
+    background-color: #48c0f0;
+}
+
 @media (max-width: 768px) {
     .sidebar {
         position: absolute;
