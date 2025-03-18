@@ -1,3 +1,5 @@
+/* public/css/gestor.css */
+
 body {
     display: flex;
     margin: 0;
@@ -230,6 +232,45 @@ select.form-control {
 .badge-prioridad-baja {
     background-color: green;
     color: white;
+}
+
+.sidebar .logout-form {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar .logout {
+    background-color: #ff0000;
+    width: 100%;
+}
+
+.sidebar .logout:hover {
+    background-color: #cc0000;
+}
+
+.content {
+    flex-grow: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0088cc;
 }
 
 @media (max-width: 768px) {
