@@ -41,9 +41,6 @@ class Incidencia extends Model
         return $this->belongsTo(User::class, 'tecnico_asignado', 'id');
     }
 
-    /**
-     * Relación: Una incidencia tiene un estado.
-     */
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'estado', 'id');

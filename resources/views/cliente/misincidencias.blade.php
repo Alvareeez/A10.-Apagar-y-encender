@@ -70,7 +70,6 @@
                     <h3>{{ $incidencia->titulo }}</h3>
                     <p>{{ $incidencia->descripcion }}</p>
                     <p><strong>Categoría:</strong> {{ $incidencia->Categoria->categoria }}</p>
-                    <p><strong>Subcategoría:</strong> {{ $incidencia->Subcategoria->subcategoria }}</p>
                     <p><strong>Comentario:</strong> {{ $incidencia->comentario }}</p>
                     <p><strong>Creado por:</strong> {{ $incidencia->creador->name }}</p>
                     <p><strong>Técnico Asignado:</strong> {{ $incidencia->tecnico ? $incidencia->tecnico->name : 'No asignado' }}</p>

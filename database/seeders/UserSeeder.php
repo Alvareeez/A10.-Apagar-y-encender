@@ -18,9 +18,9 @@ class UserSeeder extends Seeder
         $tecnicoRole = Rol::where('roles', 'Técnico de Mantenimiento')->first()->id;
 
         // Sedes
-        $barcelona = Seu::where('seu', 'Barcelona')->first()->id;
-        $berlin = Seu::where('seu', 'Berlín')->first()->id;
-        $montreal = Seu::where('seu', 'Montreal')->first()->id;
+        $barcelona = Seu::where('seus', 'Barcelona')->first()->id; // Corregido: 'seus' en lugar de 'seu'
+        $berlin = Seu::where('seus', 'Berlín')->first()->id;       // Corregido: 'seus' en lugar de 'seu'
+        $montreal = Seu::where('seus', 'Montreal')->first()->id;   // Corregido: 'seus' en lugar de 'seu'
 
         // Usuarios
         $users = [

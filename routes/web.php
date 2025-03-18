@@ -69,9 +69,13 @@ Route::middleware('auth')->group(function () {
 
     // TECNICO
     Route::get('/tecnico/dashboard', [TecnicoController::class, 'dashboard'])->name('tecnico.dashboard');
-    Route::get('/home', function () {
-        return view('home'); // Página por defecto
-    })->name('home');
+    Route::get('/tecnico/incidencia/filter', [TecnicoController::class, 'filter'])->name('tecnico.incidencia.filter');
+    Route::post('/tecnico/incidencia/{id}/start', [TecnicoController::class, 'startWork'])->name('tecnico.incidencia.start');
+    Route::post('/tecnico/incidencia/{id}/resolve', [TecnicoController::class, 'resolve'])->name('tecnico.incidencia.resolve');
+    Route::get('/tecnico/incidencia/{id}', [TecnicoController::class, 'show'])->name('tecnico.incidencia.show');
+    Route::get('/tecnico/perfil', [TecnicoController::class, 'perfil'])->name('tecnico.perfil');
+    Route::put('/tecnico/perfil', [TecnicoController::class, 'updateProfile'])->name('tecnico.perfil.update');
+    
 });
 
 Route::get('crearincidencias', [IncidenciaController::class, 'create'])->name('incidencias.create');

@@ -1,3 +1,5 @@
+/* public/css/gestor.css */
+
 body {
     display: flex;
     margin: 0;
@@ -124,7 +126,8 @@ body {
     flex-direction: column;
     cursor: pointer;
     margin: 10px;
-    z-index: 1001; /* Ensure the hamburger is above the sidebar */
+    z-index: 1001;
+    /* Ensure the hamburger is above the sidebar */
 }
 
 .hamburger div {
@@ -159,13 +162,18 @@ body {
 }
 
 select.form-control {
-    width: auto; /* Ajusta el ancho automáticamente */
-    min-width: 200px; /* Establece un ancho mínimo */
+    width: auto;
+    /* Ajusta el ancho automáticamente */
+    min-width: 200px;
+    /* Establece un ancho mínimo */
     height: auto;
-    white-space: normal; /* Permite que el texto se ajuste automáticamente */
+    white-space: normal;
+    /* Permite que el texto se ajuste automáticamente */
 }
 
+
 /* Estilos para los estados */
+
 .badge-sin-asignar {
     background-color: grey;
     color: white;
@@ -191,7 +199,9 @@ select.form-control {
     color: white;
 }
 
+
 /* Estilos para las prioridades */
+
 .badge-prioridad-alta {
     background-color: red;
     color: white;
@@ -205,6 +215,45 @@ select.form-control {
 .badge-prioridad-baja {
     background-color: green;
     color: white;
+}
+
+.sidebar .logout-form {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar .logout {
+    background-color: #ff0000;
+    width: 100%;
+}
+
+.sidebar .logout:hover {
+    background-color: #cc0000;
+}
+
+.content {
+    flex-grow: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0088cc;
 }
 
 @media (max-width: 768px) {

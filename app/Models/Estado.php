@@ -8,13 +8,13 @@ class Estado extends Model
 {
     protected $table = 'estado';
 
-    protected $fillable = ['estado']; // Campos permitidos para asignación masiva
+    protected $fillable = ['estado'];
 
     /**
      * Relación: Un estado puede estar asociado a muchas incidencias.
      */
     public function incidencias()
     {
-        return $this->hasMany(Incidencia::class);
+        return $this->hasMany(Incidencia::class, 'estado');
     }
 }
