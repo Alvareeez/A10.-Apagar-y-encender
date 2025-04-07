@@ -91,14 +91,15 @@
                                     <button class="btn btn-link" data-bs-toggle="modal"
                                         data-bs-target="#editUserModal-{{ $usuario->id }}">
                                         <i class="fas fa-edit mx-3"></i>
-                                        <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST"
-                                            class="delete-form">
-                                            @csrf
-                                            @method('DELETE') <button type="button"
-                                                class="btn btn-danger btn-sm delete-button">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                    </button>
+                                    <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST"
+                                        class="delete-form">
+                                        @csrf
+                                        @method('DELETE') <button type="button"
+                                            class="btn btn-danger btn-sm delete-button">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
