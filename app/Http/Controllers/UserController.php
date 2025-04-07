@@ -30,7 +30,6 @@ class UserController extends Controller
 
     public function store(StoreUser $request)
     {
-        // Iniciar transacción 
         DB::beginTransaction();
         try {
             // Creación del usuario
@@ -43,10 +42,10 @@ class UserController extends Controller
             $usuario->save();
 
             DB::commit();
-            return redirect()->route('usuarios.index');
+            return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('usuarios.create')->with('error', 'Ha habido un error al crear el usuario');
+            return redirect()->route('usuarios.create')->with('error', 'Ha habido un error al crear el usuario: ' . $e->getMessage());
         }
     }
 
@@ -60,41 +59,48 @@ class UserController extends Controller
 
     public function update(Request $request, User $usuario)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $usuario->id,
-            'role' => 'required|exists:roles,id', // Asegura que el rol seleccionado exista
-            'seu' => 'required|exists:seus,id' // Asegura que la sede seleccionada exista
-        ]);
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|max:255|unique:users,email,' . $usuario->id,
+                'role' => 'required|exists:roles,id', // Asegura que el rol seleccionado exista
+                'seu' => 'required|exists:seus,id' // Asegura que la sede seleccionada exista
+            ]);
 
-        // Actualizar datos del usuario
-        $usuario->name = $request->name;
-        $usuario->email = $request->email;
-        $usuario->role = $request->role; // Actualizar el ID del rol
-        $usuario->seu = $request->seu; // Actualizar el ID de la sede
+            // Actualizar datos del usuario
+            $usuario->name = $request->name;
+            $usuario->email = $request->email;
+            $usuario->role = $request->role; // Actualizar el ID del rol
+            $usuario->seu = $request->seu; // Actualizar el ID de la sede
 
-        $usuario->save();
+            $usuario->save();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente');
+            DB::commit();
+            return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Error al actualizar el usuario: ' . $e->getMessage());
+        }
     }
 
     // METODOS DELETE
     public function destroy(User $usuario)
     {
+        DB::beginTransaction();
         try {
-            // Ahora elimina el usuario
+            // Eliminar el usuario
             $usuario->delete();
 
-            DB::commit(); // Confirma la transacción
-
-            return redirect()->route('usuarios.index');
+            DB::commit();
+            return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente');
         } catch (\Exception $e) {
+            DB::rollBack();
             return back()->with('error', 'No se pudo eliminar el usuario: ' . $e->getMessage());
         }
     }
 
     // FILTROS
-
     public function filter(Request $request)
     {
         $query = User::query();
