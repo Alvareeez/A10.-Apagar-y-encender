@@ -49,7 +49,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('usuarios', [UserController::class, 'store'])->name('usuarios.store');
         Route::get('usuarios/{usuario}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
         Route::put('usuarios/{usuario}', [UserController::class, 'update'])->name('usuarios.update');
-        Route::delete('usuarios/{usuario}', [UserController::class, 'destroy'])->name('usuarios.destroy');
     });
 });
 // Rutas según el rol
