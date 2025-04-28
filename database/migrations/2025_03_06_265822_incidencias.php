@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->string('descripcion');
-            $table->string('subcategoria');
             $table->text('comentario');
             $table->string('imagen')->nullable();
+            // RELACION SUBCATEGORIA
+            $table->unsignedBigInteger('subcategoria');
+            $table->foreign('subcategoria')->references('id')->on('subcategorias')->onDelete('cascade');
             // RELACION USUARIOS (CREADOR)
             $table->unsignedBigInteger('usuario_creador');
             $table->foreign('usuario_creador')->references('id')->on('users')->onDelete('cascade');
