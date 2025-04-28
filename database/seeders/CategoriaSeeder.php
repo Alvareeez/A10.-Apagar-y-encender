@@ -13,6 +13,13 @@ class CategoriaSeeder extends Seeder
             ['categoria' => 'Software'],
             ['categoria' => 'Hardware'],
             ['categoria' => 'Redes'],
+            ['categoria' => 'Seguridad'],
+            ['categoria' => 'Mantenimiento'],
+            ['categoria' => 'Instalación'],
+            ['categoria' => 'Soporte Técnico'],
+            ['categoria' => 'Desarrollo'],
+            ['categoria' => 'Documentación'],
+            ['categoria' => 'Auditoría'],   
         ];
 
         foreach ($categorias as $categoria) {
